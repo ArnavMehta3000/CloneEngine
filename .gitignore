@@ -438,3 +438,4 @@ FodyWeavers.xsd
 build
 *.vcxproj
 *.sln
+*.filters
