@@ -13,6 +13,7 @@ project "CloneEngineRuntime"
     includedirs 
     {
         "%{wks.location}/Engine/include/",
+        "%{wks.location}/%USER_PROJECT_NAME%/",
         "%{prj.location}/src/"
     }
 
