@@ -92,25 +92,6 @@ namespace XWin
 			});
 	}
 
-	std::pair<int, int> XWindow::GetClientSize() const
-	{
-		RECT rc{};
-		GetClientRect(m_hWnd, &rc);
-		int width = rc.right - rc.left;
-		int height = rc.bottom - rc.top;
-
-		return { width, height };
-	}
-	std::pair<int, int> XWindow::GetWindowSize() const
-	{
-		RECT rc{};
-		GetWindowRect(m_hWnd, &rc);
-		int width = rc.right - rc.left;
-		int height = rc.bottom - rc.top;
-
-		return { width, height };
-	}
-
 	// Called from message router from base interface
 	LRESULT XWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
@@ -128,25 +109,6 @@ namespace XWin
 			case CustomTaskMessageId:
 				m_tasks.PopExecute();
 				return 0;
-
-			case WM_ENTERSIZEMOVE:
-			{
-				RECT rc{};
-				GetClientRect(m_hWnd, &rc);
-				m_enterClientWidth = rc.right - rc.left;
-				m_enterClientHeight = rc.bottom - rc.top;
-			}break;
-			case WM_EXITSIZEMOVE:
-			{
-				RECT rc{};
-				GetClientRect(m_hWnd, &rc);
-				int width = rc.right - rc.left;
-				int height = rc.bottom - rc.top;
-
-				// Fire callback only if size changes
-				if (m_enterClientWidth != width || m_enterClientHeight != height)
-					m_resizeCallback(width, height);
-			}break;
 			}
 		}
 		catch (const std::exception& e)
@@ -163,6 +125,7 @@ namespace XWin
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 
 	}
+
 	void XWin::XWindow::NotifyTaskDispatch() const
 	{
 		if (!PostMessageW(m_hWnd, CustomTaskMessageId, 0, 0)) 
