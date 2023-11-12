@@ -11,6 +11,7 @@ project "{0}"
 
     includedirs 
     {{
+        "%{{wks.location}}/Engine/include/",
         "%{{prj.location}}/src/"
     }}
 

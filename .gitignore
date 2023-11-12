@@ -440,3 +440,4 @@ build
 *.sln
 *.filters
 Runtime/BuildRuntime.lua
+premake5.lua
