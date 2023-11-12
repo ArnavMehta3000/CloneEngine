@@ -9,44 +9,44 @@ namespace XWin
 		m_msgPumpThread(&XWindow::MessagePump, this)
 	{
 		std::future<void> future = m_tasks.Push([=, this] ()
+		{
+			const DWORD styles = WS_THICKFRAME | WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+			const DWORD exStyles = 0;
+
+			RECT rect
 			{
-				const DWORD styles = WS_THICKFRAME | WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
-				const DWORD exStyles = 0;
+				.left   = static_cast<LONG>(posX),
+				.top    = static_cast<LONG>(posY),
+				.right  = static_cast<LONG>(posX + width),
+				.bottom = static_cast<LONG>(posY + height)
+			};
 
-				RECT rect
-				{
-					.left   = static_cast<LONG>(posX),
-					.top    = static_cast<LONG>(posY),
-					.right  = static_cast<LONG>(posX + width),
-					.bottom = static_cast<LONG>(posY + height)
-				};
+			if (AdjustWindowRect(&rect, styles, FALSE) == FALSE)
+				throw XWinException("Failed to adjust window rect");
 
-				if (AdjustWindowRect(&rect, styles, FALSE) == FALSE)
-					throw XWinException("Failed to adjust window rect");
+			const auto windowWidth = rect.right - rect.left;
+			const auto windowHeight = rect.bottom - rect.top;
 
-				const auto windowWidth = rect.right - rect.left;
-				const auto windowHeight = rect.bottom - rect.top;
-
-				const auto hModule = GetModuleHandleW(nullptr);
+			const auto hModule = GetModuleHandleW(nullptr);
 
 
-				if (!hModule) 
-					throw XWinException("Failed to get module handle");
+			if (!hModule) 
+				throw XWinException("Failed to get module handle");
 
-				m_hWnd = CreateWindowExW(
-					exStyles,
-					MAKEINTATOM(m_windowClass->GetAtom()),
-					windowTitle,
-					styles,
-					posX, posY,
-					windowWidth, windowHeight,
-					nullptr, nullptr, hModule,
-					this
-				);
+			m_hWnd = CreateWindowExW(
+				exStyles,
+				MAKEINTATOM(m_windowClass->GetAtom()),
+				windowTitle,
+				styles,
+				posX, posY,
+				windowWidth, windowHeight,
+				nullptr, nullptr, hModule,
+				this
+			);
 
-				if (!m_hWnd) 
-					throw XWinException("Failed creating window");
-			});
+			if (!m_hWnd) 
+				throw XWinException("Failed creating window");
+		});
 
 
 		m_startSignal.release();
