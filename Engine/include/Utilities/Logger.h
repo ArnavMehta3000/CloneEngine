@@ -10,7 +10,7 @@ namespace Clone::Utls
 {
 	enum class LogLevel
 	{
-		Debug,   // For low level engine information
+		Debug = 0,   // For low level engine information
 		Info,    // For general information
 		Warn,    // For warnings
 		Error,   // For errors
@@ -52,12 +52,14 @@ namespace Clone::Utls
 		Logger();
 		~Logger();
 
+		void SetFilter(int level) { m_filter = level; }
 		void AddSink(std::unique_ptr<LogSink> sink);
 		void EnqueueMessage(LogMessage log);
 
 	private:
+		int m_filter = -1;
 		std::vector<std::unique_ptr<LogSink>> m_sinks;
 	};
 
-#define CLONE_LOG(Level, Category, Message) Logger::Get().EnqueueMessage(LogMessage{ Level, #Category, Message, std::stacktrace::current() })
+#define CLONE_LOG(Level, Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Level, #Category, Message, std::stacktrace::current() })
 }

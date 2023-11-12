@@ -48,6 +48,15 @@ namespace Clone::Utls
 	{
 		// TODO: Make this multi-threaded
 
+#ifndef _DEBUG
+		if (log.m_level == LogLevel::Debug)
+			return;
+#endif // DEBUG
+
+		if ((int)log.m_level <= m_filter)
+			return;
+
+
 		auto time = std::chrono::system_clock::to_time_t(log.m_timestamp);
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(log.m_timestamp.time_since_epoch()) % 1000;
 		auto msInt = static_cast<int>(ms.count());
@@ -57,8 +66,15 @@ namespace Clone::Utls
 		std::string formattedTime = std::format("[{:02d}:{:02d}:{:02d}::{:03d}]",
 			tm.tm_hour, tm.tm_min, tm.tm_sec, msInt);
 
-		std::string formattedMsg = std::format("[{}] [{}] [{}] - {}\n",
+		std::string formattedMsg = std::format("{} [{}] [{}] - {}\n",
 			formattedTime, LogLevelToString(log.m_level), log.m_category, log.m_message);
+		
+
+		// Attach vs output sink if none attached
+		if (m_sinks.size() == 0)
+		{
+			m_sinks.push_back(std::make_unique<VSOutputSink>());
+		}
 
 		// Submit to sink
 		for (auto& sink : m_sinks)

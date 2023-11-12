@@ -1,21 +1,18 @@
 
-project "CloneEngineRuntime"
-    kind "WindowedApp"
+project "XWin"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++latest"
 
     targetdir "%{wks.location}/build/bin/%{cfg.architecture}-%{cfg.buildcfg}"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
 
-    location "%{wks.location}/Runtime/"
-    links { "CloneEngineCore", "XWin" , "%USER_PROJECT_NAME%"}
+    location "%{wks.location}/External/Xwin/"
 
     includedirs 
     {
-        "%{wks.location}/Engine/include/",
-        "%{prj.location}/src/",
-        "%{wks.location}/%USER_PROJECT_NAME%/src/",
-        "%{wks.location}/External/XWin/include/"
+        "%{prj.location}/include/XWin/",
+        "%{prj.location}/src/"
     }
 
     files
