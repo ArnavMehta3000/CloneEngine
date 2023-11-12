@@ -61,5 +61,10 @@ namespace Clone::Utls
 		std::vector<std::unique_ptr<LogSink>> m_sinks;
 	};
 
-#define CLONE_LOG(Level, Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Level, #Category, Message, std::stacktrace::current() })
+#define CLONE_DEBUG(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Debug, #Category, Message, std::stacktrace::current() })
+#define CLONE_INFO(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Info, #Category, Message, std::stacktrace::current() })
+#define CLONE_WARN(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
+#define CLONE_ERROR(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Error, #Category, Message, std::stacktrace::current() })
+#define CLONE_FATAL(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()
+
 }
