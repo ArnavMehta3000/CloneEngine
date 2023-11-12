@@ -1,6 +1,7 @@
 #include "Utilities/Logger.h"
 #include "Common/CloneWin.h"
 #include <format>
+#include <iostream>
 
 namespace Clone::Utls
 {
@@ -45,6 +46,8 @@ namespace Clone::Utls
 
 	void Logger::EnqueueMessage(LogMessage log)
 	{
+		// TODO: Make this multi-threaded
+
 		auto time = std::chrono::system_clock::to_time_t(log.m_timestamp);
 		auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(log.m_timestamp.time_since_epoch()) % 1000;
 		auto msInt = static_cast<int>(ms.count());
@@ -87,5 +90,9 @@ namespace Clone::Utls
 		OutputDebugStringA(message.c_str());
 	}
 
+	void ConsoleSink::Write(const std::string& message)
+	{
+		std::cout << message;
+	}
 }
 

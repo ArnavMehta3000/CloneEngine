@@ -41,6 +41,11 @@ namespace Clone::Utls
 		void Write(const std::string& message);
 	};
 
+	struct ConsoleSink final : public LogSink
+	{
+		void Write(const std::string& message);
+	};
+
 	class Logger final : public Singleton<Logger>
 	{
 	public:
