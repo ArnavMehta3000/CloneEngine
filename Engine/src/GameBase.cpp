@@ -1,10 +1,19 @@
 #include "Core/Game/GameBase.h"
 
+
+
 namespace Clone::Game
 {
-	bool GameBase::PreInit(Utls::Logger* logger)
+	Utls::Logger* GameBase::s_logger{ nullptr };
+
+	GameBase::GameBase()
 	{
-		return false;
+		// TODO: redo logger to remove singleton
+		Clone::Utls::Logger::Get().AddSink(std::make_unique<Clone::Utls::VSOutputSink>());
+	}
+	bool GameBase::PreInit()
+	{
+		return true;
 	}
 	void GameBase::PreUpdate(double deltaTime)
 	{

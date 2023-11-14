@@ -1,10 +1,9 @@
 #include "Testbench.h"
-#include ""
 
 
 bool TestbenchClass::Init()
 {
-	//CLONE_INFO(Game, "init");
+	CLONE_INFO(Game, "init");
 	return true;
 }
 

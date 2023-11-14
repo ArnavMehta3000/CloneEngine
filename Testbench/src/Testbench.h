@@ -1,7 +1,8 @@
 #pragma once
-#include <iostream>
+#include "Common/Defines.h"
 #include "Core/Game/GameBase.h"
 
+using namespace Clone;
 
 class __declspec(dllexport) TestbenchClass : public Clone::Game::GameBase
 {
@@ -17,6 +18,6 @@ public:
 
 extern "C"
 {
-	__declspec(dllexport) Clone::Game::GameBase* CreateGame() { return new TestbenchClass(); }
-	__declspec(dllexport) void ReleaseGame(void* gamePtr) { delete gamePtr; }
+	CLONE_EXPORT Clone::Game::GameBase* CreateGame() { return new TestbenchClass(); }
+	CLONE_EXPORT void ReleaseGame(void* gamePtr) { delete gamePtr; }
 }

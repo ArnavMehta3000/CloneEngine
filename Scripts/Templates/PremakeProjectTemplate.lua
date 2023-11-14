@@ -30,11 +30,11 @@ project "{0}"
     }}
 
     filter "configurations:Debug"
-        defines {{ "DEBUG", "_DEBUG" }}
+        defines {{ "DEBUG", "_DEBUG", "GAME" }}
         symbols "On"
 
     filter "configurations:Release"
-        defines {{ "NDEBUG" }}
+        defines {{ "NDEBUG", "GAME" }}
         optimize "On"
         symbols "Off"
         

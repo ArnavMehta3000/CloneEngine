@@ -1,5 +1,4 @@
 #pragma once
-#include "Utilities/Singleton.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -46,6 +45,7 @@ namespace Clone::Utls
 	/// </summary>
 	struct ILogSink
 	{
+		virtual ~ILogSink() = default;
 		virtual void Write(const std::string& output) = 0;
 	};
 
@@ -68,10 +68,16 @@ namespace Clone::Utls
 	/// <summary>
 	/// Singleton class that handles the logging of messages
 	/// </summary>
-	class Logger final : public Singleton<Logger>
+	class Logger final
 	{
 	public:
-		Logger();
+		
+		static Logger& Get()
+		{
+			static Logger logger;
+			return logger;
+		}
+
 		~Logger();
 
 		/// <summary>
@@ -85,19 +91,28 @@ namespace Clone::Utls
 		void AddSink(std::unique_ptr<ILogSink> sink);
 
 		/// <summary>
+		/// Get the number of sinks currently attached to this logger
+		/// </summary>
+		inline int SinkCount() { return (int)m_sinks.size(); }
+
+		/// <summary>
 		/// Function used to queue the printing of log message (not multi threaded yet)
 		/// </summary>
 		void EnqueueMessage(LogMessage log);
 
 	private:
+		Logger();
+
 		int m_filter = -1;
 		std::vector<std::unique_ptr<ILogSink>> m_sinks;
 	};
+
 
 #define CLONE_DEBUG(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Debug, #Category, Message, std::stacktrace::current() })
 #define CLONE_INFO(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Info, #Category, Message, std::stacktrace::current() })
 #define CLONE_WARN(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
 #define CLONE_ERROR(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Error, #Category, Message, std::stacktrace::current() })
 #define CLONE_FATAL(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()
+
 
 }

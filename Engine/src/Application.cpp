@@ -43,8 +43,7 @@ namespace Clone::Application
 			ReleaseGame releaseGameFunc = ReleaseGame(GetProcAddress(dllHandle, "ReleaseGame"));
 
 			m_gameInstance = createGameFunc();
-
-			m_gameInstance->PreInit(nullptr);
+			m_gameInstance->PreInit();
 			m_gameInstance->Init();
 			m_gameInstance->PreUpdate(0.0);
 			m_gameInstance->Update(0.0);
@@ -53,7 +52,6 @@ namespace Clone::Application
 			m_gameInstance->Render();
 			m_gameInstance->PreShutdown();
 			m_gameInstance->Shutdown();
-
 			releaseGameFunc(m_gameInstance);
 		}
 	}

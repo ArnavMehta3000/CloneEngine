@@ -12,4 +12,10 @@ namespace Clone::Common
 #define FPS_TO_DT(fps) 1.0 / fps
 // Convert delta time to frame rate
 #define DT_TO_FPS(dt) 1.0 / dt
+
+// Export tag
+#define CLONE_EXPORT __declspec(dllexport)
+
+// Import tag
+#define CLONE_IMPORT __declspec(dllimport)
 }
