@@ -8,11 +8,11 @@ project "Testbench"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
 
     location "%{wks.location}/Testbench/"
+    links { "CloneEngineCore" }
 
     includedirs 
     {
-        --"%{wks.location}/Engine/include/",
-        "%{wks.location}/EngineAPI/include/",
+        "%{wks.location}/Engine/include/",
         "%{prj.location}/src/"
     }
 

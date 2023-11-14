@@ -8,11 +8,11 @@ project "{0}"
     objdir "%{{wks.location}}/build/int/%{{cfg.architecture}}-%{{cfg.buildcfg}}/%{{prj.name}}"
 
     location "%{{wks.location}}/{0}/"
+    links {{ "CloneEngineCore" }}
 
     includedirs 
     {{
-        --"%{{wks.location}}/Engine/include/",
-        "%{{wks.location}}/EngineAPI/include/",
+        "%{{wks.location}}/Engine/include/",
         "%{{prj.location}}/src/"
     }}
 

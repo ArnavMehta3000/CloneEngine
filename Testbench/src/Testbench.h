@@ -1,10 +1,9 @@
 #pragma once
 #include <iostream>
-#include "EngineAPI/EngineAPI.h"
-#define API  __declspec(dllexport)
+#include "Core/Game/GameBase.h"
 
 
-class API TestbenchClass : public Clone::Game::GameBase
+class __declspec(dllexport) TestbenchClass : public Clone::Game::GameBase
 {
 public:
 	TestbenchClass() = default;
@@ -18,6 +17,6 @@ public:
 
 extern "C"
 {
-	API Clone::Game::GameBase* CreateGame() { return new TestbenchClass(); }
-	API void ReleaseGame(void* gamePtr) { delete gamePtr; }
+	__declspec(dllexport) Clone::Game::GameBase* CreateGame() { return new TestbenchClass(); }
+	__declspec(dllexport) void ReleaseGame(void* gamePtr) { delete gamePtr; }
 }
