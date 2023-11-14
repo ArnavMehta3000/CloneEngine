@@ -1,7 +1,6 @@
 #include "Utilities/Logger.h"
 #include "Common/CloneWin.h"
-#include <format>
-#include <iostream>
+#include <print>
 
 namespace Clone::Utls
 {
@@ -70,12 +69,6 @@ namespace Clone::Utls
 			formattedTime, LogLevelToString(log.m_level), log.m_category, log.m_message);
 		
 
-		// Attach vs output sink if none attached
-		if (m_sinks.size() == 0)
-		{
-			m_sinks.push_back(std::make_unique<VSOutputSink>());
-		}
-
 		// Submit to sink
 		for (auto& sink : m_sinks)
 		{
@@ -84,7 +77,7 @@ namespace Clone::Utls
 			// Get stack trace when fatal
 			if (log.m_level == LogLevel::Fatal)
 			{
-				sink->Write("\n ----- Stack trace -----\n");
+				sink->Write("\n ----- Stack trace -----");
 				for (auto& trace : log.m_trace)
 				{
 					sink->Write(trace.description() + "\n");
@@ -96,7 +89,7 @@ namespace Clone::Utls
 		}
 	}
 
-	void Logger::AddSink(std::unique_ptr<LogSink> sink)
+	void Logger::AddSink(std::unique_ptr<ILogSink> sink)
 	{
 		m_sinks.push_back(std::move(sink));
 	}
@@ -108,7 +101,7 @@ namespace Clone::Utls
 
 	void ConsoleSink::Write(const std::string& message)
 	{
-		std::cout << message;
+		std::print("{}", message);
 	}
 }
 

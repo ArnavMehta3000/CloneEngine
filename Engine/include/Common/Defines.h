@@ -1,5 +1,7 @@
 #pragma once
 
+// Header containing common defines
+
 namespace Clone::Common
 {
 // Convert value to string

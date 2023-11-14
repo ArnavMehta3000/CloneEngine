@@ -6,5 +6,6 @@ workspace "{0}"
 
 include "{1}/Runtime/BuildRuntime.lua"
 include "{1}/Engine/BuildEngine.lua"
+include "{1}/EngineAPI/BuildEngineAPI.lua"
 include "{1}/{0}/Build{0}.lua"
 include "{1}/External/Xwin/BuildXWin.lua"

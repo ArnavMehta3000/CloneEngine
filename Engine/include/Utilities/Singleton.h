@@ -2,6 +2,10 @@
 
 namespace Clone::Utls
 {
+	/// <summary>
+	/// Templated base class for declaring a singleton
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template <class T>
 	class Singleton
 	{
@@ -23,6 +27,9 @@ namespace Clone::Utls
 
 
 	private:
+		/// <summary>
+		/// Class that contains the context of the singleton
+		/// </summary>
 		class Context
 		{
 		public:

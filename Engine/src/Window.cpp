@@ -48,7 +48,7 @@ namespace Clone::Application
 
 			// Fire callback only if size changes
 			if (m_enterClientWidth != width || m_enterClientHeight != height)
-				m_resizeCallback(width, height);
+				m_resizeCallback(hWnd, width, height);
 		}break;
 		}
 

@@ -18,12 +18,12 @@ namespace Clone::Application
 			CLONE_FATAL(Application, e.what());
 		}
 		
-		m_appMainWindow->SetResizeCallback([this](int w, int h) { Application::OnMainWindowResize(w, h); });
+		m_appMainWindow->SetResizeCallback([this](HWND hWnd, int w, int h) { Application::OnMainWindowResize(w, h); });
 	}
 	
 	void Application::Run()
 	{
-		CLONE_FATAL(Main Window, "Meh");
+		LoadGame();
 		while (!m_appMainWindow->IsClosing())
 		{
 
@@ -33,6 +33,29 @@ namespace Clone::Application
 
 	void Application::LoadGame()
 	{
+		typedef Clone::Game::GameBase* (*CreateGame)();
+		typedef void (*ReleaseGame)(void*);
+		
+		HMODULE dllHandle = LoadLibraryA("Testbench.dll");
+		if (dllHandle != 0)
+		{
+			CreateGame createGameFunc = CreateGame(GetProcAddress(dllHandle, "CreateGame"));
+			ReleaseGame releaseGameFunc = ReleaseGame(GetProcAddress(dllHandle, "ReleaseGame"));
+
+			m_gameInstance = createGameFunc();
+
+			m_gameInstance->PreInit(nullptr);
+			m_gameInstance->Init();
+			m_gameInstance->PreUpdate(0.0);
+			m_gameInstance->Update(0.0);
+			m_gameInstance->PostUpdate(0.0);
+			m_gameInstance->PreRender();
+			m_gameInstance->Render();
+			m_gameInstance->PreShutdown();
+			m_gameInstance->Shutdown();
+
+			releaseGameFunc(m_gameInstance);
+		}
 	}
 	
 	void Application::OnMainWindowResize(int newWidth, int newHeight)

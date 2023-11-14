@@ -8,17 +8,27 @@
 
 namespace Clone::Utls
 {
+	/// <summary>
+	/// Enum defining the verbosity of the log message
+	/// </summary>
 	enum class LogLevel
 	{
 		Debug = 0,   // For low level engine information
-		Info,    // For general information
-		Warn,    // For warnings
-		Error,   // For errors
-		Fatal    // Similar to errors, but crashes the program and gives a stack trace
+		Info,        // For general information
+		Warn,        // For warnings
+		Error,       // For errors
+		Fatal        // Similar to errors, but crashes the program and gives a stack trace
 	};
 
+	/// <summary>
+	/// Converts a LogLevel to string
+	/// </summary>
+	/// <returns>String version of the LogLevel enum</returns>
 	std::string_view LogLevelToString(LogLevel level);
 
+	/// <summary>
+	/// Structure that contains the log entry details
+	/// </summary>
 	struct LogMessage 
 	{
 		LogMessage(LogLevel level, std::string_view category, std::string_view message, std::stacktrace trace = std::stacktrace::current());
@@ -31,40 +41,63 @@ namespace Clone::Utls
 	private:
 	};
 
-	struct LogSink
+	/// <summary>
+	/// Base interface for defining the output of the logger
+	/// </summary>
+	struct ILogSink
 	{
 		virtual void Write(const std::string& output) = 0;
 	};
 
-	struct VSOutputSink final : public LogSink
+	/// <summary>
+	/// Log sink that prints to Visual Studio output window
+	/// </summary>
+	struct VSOutputSink final : public ILogSink
 	{
 		void Write(const std::string& message);
 	};
 
-	struct ConsoleSink final : public LogSink
+	/// <summary>
+	/// Log sink that prints to the console
+	/// </summary>
+	struct ConsoleSink final : public ILogSink
 	{
 		void Write(const std::string& message);
 	};
 
+	/// <summary>
+	/// Singleton class that handles the logging of messages
+	/// </summary>
 	class Logger final : public Singleton<Logger>
 	{
 	public:
 		Logger();
 		~Logger();
 
+		/// <summary>
+		/// Sets the log filter, messages below the filter will get ignored
+		/// </summary>
 		void SetFilter(int level) { m_filter = level; }
-		void AddSink(std::unique_ptr<LogSink> sink);
+		
+		/// <summary>
+		/// Adds a log sink to the logger
+		/// </summary>
+		void AddSink(std::unique_ptr<ILogSink> sink);
+
+		/// <summary>
+		/// Function used to queue the printing of log message (not multi threaded yet)
+		/// </summary>
 		void EnqueueMessage(LogMessage log);
 
 	private:
 		int m_filter = -1;
-		std::vector<std::unique_ptr<LogSink>> m_sinks;
+		std::vector<std::unique_ptr<ILogSink>> m_sinks;
 	};
 
-#define CLONE_DEBUG(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Debug, #Category, Message, std::stacktrace::current() })
-#define CLONE_INFO(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Info, #Category, Message, std::stacktrace::current() })
-#define CLONE_WARN(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
-#define CLONE_ERROR(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Error, #Category, Message, std::stacktrace::current() })
-#define CLONE_FATAL(Category, Message) Utls::Logger::Get().EnqueueMessage(Utls::LogMessage{ Utls::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()
+#define CLONE_DEBUG(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Debug, #Category, Message, std::stacktrace::current() })
+#define CLONE_INFO(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Info, #Category, Message, std::stacktrace::current() })
+#define CLONE_WARN(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
+#define CLONE_ERROR(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Error, #Category, Message, std::stacktrace::current() })
+#define CLONE_FATAL(Category, Message) Clone::Utls::Logger::Get().EnqueueMessage(Clone::Utls::LogMessage{ Clone::Utls::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()
 
 }

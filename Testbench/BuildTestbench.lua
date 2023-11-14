@@ -1,21 +1,19 @@
 
-project "CloneEngineRuntime"
-    kind "WindowedApp"
+project "Testbench"
+    kind "SharedLib"
     language "C++"
     cppdialect "C++latest"
 
     targetdir "%{wks.location}/build/bin/%{cfg.architecture}-%{cfg.buildcfg}"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
 
-    location "%{wks.location}/Runtime/"
-    links { "CloneEngineCore", "XWin" , "%USER_PROJECT_NAME%"}
+    location "%{wks.location}/Testbench/"
 
     includedirs 
     {
-        "%{wks.location}/Engine/include/",
-        "%{prj.location}/src/",
-        "%{wks.location}/%USER_PROJECT_NAME%/src/",
-        "%{wks.location}/External/XWin/include/"
+        --"%{wks.location}/Engine/include/",
+        "%{wks.location}/EngineAPI/include/",
+        "%{prj.location}/src/"
     }
 
     files
@@ -39,3 +37,4 @@ project "CloneEngineRuntime"
         defines { "NDEBUG" }
         optimize "On"
         symbols "Off"
+        

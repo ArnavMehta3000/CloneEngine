@@ -37,3 +37,4 @@ project "CloneEngineCore"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
+        symbols "Off"

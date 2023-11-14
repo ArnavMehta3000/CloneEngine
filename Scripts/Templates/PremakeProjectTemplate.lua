@@ -11,7 +11,8 @@ project "{0}"
 
     includedirs 
     {{
-        "%{{wks.location}}/Engine/include/",
+        --"%{{wks.location}}/Engine/include/",
+        "%{{wks.location}}/EngineAPI/include/",
         "%{{prj.location}}/src/"
     }}
 
@@ -35,3 +36,5 @@ project "{0}"
     filter "configurations:Release"
         defines {{ "NDEBUG" }}
         optimize "On"
+        symbols "Off"
+        
