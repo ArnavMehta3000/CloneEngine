@@ -1,10 +1,21 @@
 workspace "{0}"
-    configurations {{ "Debug", "Release" }}
+    configurations {{ "Debug", "Release", "Shipping" }}
     startproject "CloneEngineRuntime"
     architecture "x64"
     location "{1}"
 
-include "{1}/Runtime/BuildRuntime.lua"
-include "{1}/Engine/BuildEngine.lua"
-include "{1}/{0}/Build{0}.lua"
-include "{1}/External/Xwin/BuildXWin.lua"
+    filter "system:windows"
+        buildoptions {{ "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }}
+
+group "Core"
+    include "{1}/Runtime/BuildRuntime.lua"
+    include "{1}/Engine/BuildEngine.lua"
+group ""
+
+group "Game"
+    include "{1}/{0}/Build{0}.lua"
+group ""
+
+group "External"
+    include "{1}/External/Xwin/BuildXWin.lua"
+group ""

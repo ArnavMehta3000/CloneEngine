@@ -31,10 +31,17 @@ project "{0}"
 
     filter "configurations:Debug"
         defines {{ "DEBUG", "_DEBUG", "GAME" }}
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines {{ "NDEBUG", "GAME" }}
+        runtime "Release"
+        optimize "On"
+        symbols "On"
+        
+    filter "configurations:Shipping"
+        defines {{ "NDEBUG", "SHIPPING", "GAME" }}
+        runtime "Release"
         optimize "On"
         symbols "Off"
-        
