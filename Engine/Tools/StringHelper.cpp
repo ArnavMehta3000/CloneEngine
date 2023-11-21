@@ -1,8 +1,8 @@
-#include "Utilities/StringHelper.h"
+#include "StringHelper.h"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>  // For conversion functions
 
-namespace Clone::Utls
+namespace Clone::Tools
 {
 	std::wstring StringHelper::ToWideString(const std::string& str)
 	{

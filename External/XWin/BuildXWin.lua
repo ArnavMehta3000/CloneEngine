@@ -30,8 +30,17 @@ project "XWin"
 
     filter "configurations:Debug"
         defines { "DEBUG", "_DEBUG" }
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG" }
+        defines { "NDEBUG", "RELEASE" }
+        runtime "Release"
         optimize "On"
+        symbols "On"
+        
+    filter "configurations:Shipping"
+        defines { "NDEBUG", "SHIPPING" }
+        runtime "Release"
+        optimize "On"
+        symbols "Off"

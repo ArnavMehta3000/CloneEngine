@@ -1,17 +1,15 @@
 #pragma once
-#include "Common/Defines.h"
 #include "Core/Game/GameBase.h"
 
 using namespace Clone;
 
-class __declspec(dllexport) TestbenchClass : public Clone::Game::GameBase
+class CLONE_EXPORT TestbenchClass : public Game::GameBase
 {
 public:
-	TestbenchClass() = default;
+	TestbenchClass();
 	~TestbenchClass() override = default;
 	bool Init() override;
 	void Update(double deltaTime) override;
-	void Render() override;
 	void Shutdown() override;
 };
 

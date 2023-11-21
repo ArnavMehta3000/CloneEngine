@@ -12,8 +12,7 @@ project "CloneEngineCore"
 
     includedirs 
     {
-        "%{prj.location}/include/",
-        "%{prj.location}/src/",
+        "%{prj.location}/",
         "%{wks.location}/External/XWin/include/"
     }
 
@@ -23,6 +22,8 @@ project "CloneEngineCore"
         "%{prj.location}/**.hpp",
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
+        "%{prj.location}/**.hlsl",
+        "%{prj.location}/**.hlsli",
     }
 
     flags
@@ -32,9 +33,17 @@ project "CloneEngineCore"
 
     filter "configurations:Debug"
         defines { "DEBUG", "_DEBUG" }
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG" }
+        defines { "NDEBUG", "RELEASE" }
+        runtime "Release"
+        optimize "On"
+        symbols "On"
+        
+    filter "configurations:Shipping"
+        defines { "NDEBUG", "SHIPPING" }
+        runtime "Release"
         optimize "On"
         symbols "Off"

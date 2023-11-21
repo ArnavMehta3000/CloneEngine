@@ -12,7 +12,7 @@ project "Testbench"
 
     includedirs 
     {
-        "%{wks.location}/Engine/include/",
+        "%{wks.location}/Engine/",
         "%{prj.location}/src/"
     }
 
@@ -22,6 +22,8 @@ project "Testbench"
         "%{prj.location}/**.hpp",
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
+        "%{prj.location}/**.hlsl",
+        "%{prj.location}/**.hlsli",
     }
 
     flags
@@ -31,10 +33,17 @@ project "Testbench"
 
     filter "configurations:Debug"
         defines { "DEBUG", "_DEBUG", "GAME" }
+        runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
         defines { "NDEBUG", "GAME" }
+        runtime "Release"
+        optimize "On"
+        symbols "On"
+        
+    filter "configurations:Shipping"
+        defines { "NDEBUG", "SHIPPING", "GAME" }
+        runtime "Release"
         optimize "On"
         symbols "Off"
-        

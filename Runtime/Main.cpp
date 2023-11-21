@@ -1,9 +1,9 @@
 #include "Common/CloneWin.h"
 #include "Core/Application/Application.h"
-#include "Utilities/Logger.h"
+#include "Tools/Logger.h"
 
 using namespace Clone::Application;
-using namespace Clone::Utls;
+using namespace Clone::Tools;
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -11,9 +11,6 @@ int WINAPI wWinMain(
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd)
 {
-	// Init logger
-	Logger::Get().AddSink(std::make_unique<VSOutputSink>());
-
 	Application app(hInstance);
 	app.Run();
 

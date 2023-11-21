@@ -1,4 +1,4 @@
-#include "Core/Application/Window.h"
+#include "Window.h"
 
 namespace Clone::Application
 {
@@ -30,6 +30,11 @@ namespace Clone::Application
 
 	LRESULT Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
+		if (m_userWndProc)
+		{
+			m_userWndProc(hWnd, msg, wParam, lParam);
+		}
+
 		switch (msg)
 		{
 		case WM_ENTERSIZEMOVE:

@@ -27,11 +27,13 @@ namespace Clone::Application
 		std::pair<int, int> GetWindowSize() const;
 
 		/// <summary>
-		/// Sets the function callback whenever the window exits resizing
+		/// Sets the function callback for user defined window procedure
 		/// </summary>
 		/// <param name="callback">Callback function</param>
 		void SetResizeCallback(std::function<void(HWND, int, int)> callback) { m_resizeCallback = std::move(callback); }
 
+
+		void SetUserWndProcCallback(std::function<void(HWND, UINT, WPARAM, LPARAM)> callback) { m_userWndProc = std::move(callback); }
 
 	private:
 		/// <summary>
@@ -44,6 +46,7 @@ namespace Clone::Application
 		LRESULT WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept override;
 
 		std::function<void(HWND, int, int)> m_resizeCallback;
+		std::function<void(HWND, UINT, WPARAM, LPARAM)> m_userWndProc;
 
 		int m_enterClientWidth;
 		int m_enterClientHeight;

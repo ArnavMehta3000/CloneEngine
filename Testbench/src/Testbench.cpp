@@ -1,20 +1,24 @@
 #include "Testbench.h"
 
 
+TestbenchClass::TestbenchClass() : Game::GameBase()
+{
+	// Set engine/config
+	m_config;
+}
+
 bool TestbenchClass::Init()
 {
-	CLONE_INFO(Game, "init");
+	CLONE_INFO(Testbench, "Testbench Init");
 	return true;
 }
 
 void TestbenchClass::Update(double deltaTime)
 {
-}
-
-void TestbenchClass::Render()
-{
+	CLONE_INFO(Testbench, "Testbench Update");
 }
 
 void TestbenchClass::Shutdown()
 {
+	CLONE_INFO(Testbench, "Testbench Shutdown");
 }

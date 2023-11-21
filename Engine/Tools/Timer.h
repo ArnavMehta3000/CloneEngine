@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace Clone::Utls
+namespace Clone::Tools
 {
 	/// <summary>
 	/// Simple time class that starts on construction
