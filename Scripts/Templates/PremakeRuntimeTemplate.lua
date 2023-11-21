@@ -12,8 +12,7 @@ project "CloneEngineRuntime"
 
     includedirs 
     {
-        "%{wks.location}/Engine/include/",
-        "%{prj.location}/src/",
+        "%{wks.location}/Engine/",
         "%{wks.location}/%USER_PROJECT_NAME%/src/",
         "%{wks.location}/External/XWin/include/"
     }
@@ -24,6 +23,8 @@ project "CloneEngineRuntime"
         "%{prj.location}/**.hpp",
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
+        "%{prj.location}/**.hlsl",
+        "%{prj.location}/**.hlsli",
     }
 
     flags

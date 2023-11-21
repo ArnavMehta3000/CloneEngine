@@ -12,7 +12,7 @@ project "{0}"
 
     includedirs 
     {{
-        "%{{wks.location}}/Engine/include/",
+        "%{{wks.location}}/Engine/",
         "%{{prj.location}}/src/"
     }}
 
@@ -22,6 +22,8 @@ project "{0}"
         "%{{prj.location}}/**.hpp",
         "%{{prj.location}}/**.cpp",
         "%{{prj.location}}/**.ixx",
+        "%{{prj.location}}/**.hlsl",
+        "%{{prj.location}}/**.hlsli",
     }}
 
     flags
