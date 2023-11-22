@@ -4,7 +4,8 @@
 
 namespace Clone::Game
 {
-	GameBase::GameBase()
+	GameBase::GameBase():
+		m_engine(nullptr)
 	{
 		CLONE_INFO(Game, "GameBase Constructor");
 	}
