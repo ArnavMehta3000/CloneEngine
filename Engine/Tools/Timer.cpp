@@ -19,6 +19,9 @@ namespace Clone::Tools
 
 	double Timer::GetDeltaTime()
 	{
+		if (std::isinf(m_deltaTime) || std::isnan(m_deltaTime))
+			return 0;
+
 		return m_deltaTime;
 	}
 }
