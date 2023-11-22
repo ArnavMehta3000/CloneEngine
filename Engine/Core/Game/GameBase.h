@@ -1,8 +1,12 @@
 #pragma once
-#include "Config/GameConfig.h"
 #include "Core/Engine/Engine.h"
 
-namespace Clone::Application { class Application; }
+// Forward declare application classes
+namespace Clone::Application 
+{ 
+	class Application;
+	class Window;
+}
 
 namespace Clone::Game
 {
@@ -19,15 +23,15 @@ namespace Clone::Game
 		virtual bool Init() = 0;
 		virtual void Update(double deltaTime) = 0;
 		virtual void Shutdown() = 0;
-		constexpr inline Engine::Engine* GetEngine() { return m_engine.m_enginePtr.get(); }
+
+		constexpr inline Engine::Engine* GetEngine() { return m_engine.Engine.get(); }
+		inline Rendering::Renderer* GetRenderer () { return m_engine.Engine->GetRenderer(); }
 
 	protected:  // Protected member variables
-		Config::GameConfig m_config;
-		HWND m_windowHandle;
+		Application::Window* m_parentWindow;
 
 	private:  // Private member variables
-		inline void SetWindowHandle(HWND hWnd) { m_windowHandle = hWnd; }
-		bool PreInit();
+		bool PreInit(Application::Window* parentWindow);
 		void PreUpdate(double deltaTime);
 		void Render();
 		void PreShutdown();

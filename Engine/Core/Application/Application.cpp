@@ -37,10 +37,8 @@ namespace Clone::Application
 			CLONE_FATAL(LoadGame, "Failed to load game");
 		}
 		
-		// Pass the current window handle to the game instance
-		m_gameInstance->SetWindowHandle(m_appMainWindow->GetHandle());
 
-		if (!m_gameInstance->PreInit())
+		if (!m_gameInstance->PreInit(m_appMainWindow.get()))
 		{
 			CLONE_ERROR(Game Init, "Failed game pre initialization");
 		}
@@ -128,6 +126,7 @@ namespace Clone::Application
 	void Application::OnMainWindowResize(HWND hWnd, int newWidth, int newHeight)
 	{
 		CLONE_DEBUG(MainWindow, std::format("Main window resized to: {0} x {1}", newWidth, newHeight));
+		m_gameInstance->GetRenderer()->Resize(newWidth, newHeight);
 	}
 
 	void Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
