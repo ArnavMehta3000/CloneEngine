@@ -143,6 +143,12 @@ namespace Clone::Rendering
 
 	void Renderer::Resize(int width, int height)
 	{
+		if (!m_swapChain)
+		{
+			CLONE_ERROR(Renderer, "Invalid swapchain when trying to resize");
+			return;
+		}
+
 		IsResizing = true;
 		HRESULT hr = E_FAIL;
 
