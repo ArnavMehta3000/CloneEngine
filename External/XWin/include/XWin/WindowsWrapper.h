@@ -2,7 +2,9 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
+#ifndef STRICT
 #define STRICT
+#endif
 
 #ifndef HYWIN_CLEAN_WINDOWS
 #define NOGDICAPMASKS 
