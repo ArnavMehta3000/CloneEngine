@@ -3,8 +3,6 @@
 
 TestbenchClass::TestbenchClass() : Game::GameBase()
 {
-	// Set engine/config
-	m_config;
 }
 
 bool TestbenchClass::Init()
