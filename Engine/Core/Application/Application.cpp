@@ -36,6 +36,9 @@ namespace Clone::Application
 		{
 			CLONE_FATAL(LoadGame, "Failed to load game");
 		}
+		
+		// Pass the current window handle to the game instance
+		m_gameInstance->SetWindowHandle(m_appMainWindow->GetHandle());
 
 		if (!m_gameInstance->PreInit())
 		{
