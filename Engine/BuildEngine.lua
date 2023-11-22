@@ -22,6 +22,7 @@ project "CloneEngineCore"
         "%{prj.location}/**.hpp",
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
+        "%{prj.location}/**.inl",
         "%{prj.location}/**.hlsl",
         "%{prj.location}/**.hlsli",
     }
