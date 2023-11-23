@@ -14,8 +14,8 @@ namespace Clone::Config
 			const wchar_t* Title = L"Clone Engine Window";
 			unsigned int Width = 800;
 			unsigned int Height = 800;
-			unsigned int PosX = (unsigned int)CW_USEDEFAULT;
-			unsigned int PosY = (unsigned int)CW_USEDEFAULT;
+			unsigned int PosX = (unsigned int)0x80000000;  // Value of CW_USEDEFAULT
+			unsigned int PosY = (unsigned int)0x80000000;  // Value of CW_USEDEFAULT
 		}Window;
 
 	};

@@ -192,16 +192,19 @@ namespace Clone::Rendering
 		IsResizing = false;
 	}
 
-	void Renderer::Render()
+	void Renderer::Clear(float r, float g, float b, float a)
+	{
+		m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), nullptr);
+
+		float color[4] = { r, g, b, a};
+		m_context->ClearRenderTargetView(m_renderTarget.Get(), color);
+	}
+
+	void Renderer::RenderFrame()
 	{
 		if (IsResizing)
 			return;
 
-		m_context->OMSetRenderTargets(1, m_renderTarget.GetAddressOf(), nullptr);
-
-		float color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
-		m_context->ClearRenderTargetView(m_renderTarget.Get(), color);
-
-		m_swapChain->Present(IsVsyncEnabled ? 1 : 0 , 0);
+		m_swapChain->Present(IsVsyncEnabled ? 1 : 0, 0);
 	}
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "Core/Game/GameBase.h"
-
 using namespace Clone;
 
 class CLONE_EXPORT TestbenchClass : public Game::GameBase
@@ -8,6 +7,7 @@ class CLONE_EXPORT TestbenchClass : public Game::GameBase
 public:
 	TestbenchClass();
 	~TestbenchClass() override = default;
+
 	bool Init() override;
 	void Update(double deltaTime) override;
 	void Shutdown() override;

@@ -1,6 +1,6 @@
 #pragma once
-#include "Core/Application/Window.h"
 #include "Config/AppConfig.h"
+#include "Core/Application/Window.h"
 #include "Core/Game/GameBase.h"
 
 namespace Clone::Application

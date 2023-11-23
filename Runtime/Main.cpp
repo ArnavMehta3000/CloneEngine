@@ -14,6 +14,5 @@ int WINAPI wWinMain(
 	Application app(hInstance);
 	app.Run();
 
-	
 	return 0;
 }

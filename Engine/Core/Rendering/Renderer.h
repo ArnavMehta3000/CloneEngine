@@ -12,7 +12,9 @@ namespace Clone::Rendering
 
 		bool Init(HWND hWnd);
 		void Resize(int width, int height);
-		void Render();
+		
+		void Clear(float r, float g, float b, float a = 1.0f);
+		void RenderFrame();
 
 		// Enable or disable VSYNC for presenting
 		CLONE_AUTO_PROPERTY(bool, IsVsyncEnabled)
@@ -20,9 +22,9 @@ namespace Clone::Rendering
 		CLONE_AUTO_PROPERTY(bool, IsResizing)
 
 	private:
-		ComPtr<ID3D11Device1> m_device;
-		ComPtr<ID3D11DeviceContext1> m_context;
-		ComPtr<IDXGISwapChain1> m_swapChain;
-		ComPtr<ID3D11RenderTargetView> m_renderTarget;
+		GraphicsDevice m_device;
+		GraphicsContext m_context;
+		GraphicsSwapChain m_swapChain;
+		GraphicsRenderTargetView m_renderTarget;
 	};
 }

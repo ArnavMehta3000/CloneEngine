@@ -16,3 +16,12 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "D3DCompiler.lib")
+
+// Rendering aliases
+namespace Clone::Rendering
+{
+	using GraphicsDevice = ComPtr<ID3D11Device1>;
+	using GraphicsContext = ComPtr<ID3D11DeviceContext1>;
+	using GraphicsSwapChain = ComPtr<IDXGISwapChain1>;
+	using GraphicsRenderTargetView = ComPtr<ID3D11RenderTargetView>;
+}

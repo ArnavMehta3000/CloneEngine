@@ -24,8 +24,11 @@ namespace Clone::Game
 		virtual void Update(double deltaTime) = 0;
 		virtual void Shutdown() = 0;
 
-		constexpr inline Engine::Engine* GetEngine() { return m_engine.Engine.get(); }
-		inline Rendering::Renderer* GetRenderer () { return m_engine.Engine->GetRenderer(); }
+		inline Engine::Engine* GetEngine() const { return m_engine.Engine.get(); }
+		inline Rendering::Renderer* GetRenderer () const { return m_engine.Engine->GetRenderer(); }
+
+
+	protected:
 
 	protected:  // Protected member variables
 		Application::Window* m_parentWindow;
