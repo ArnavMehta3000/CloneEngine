@@ -8,7 +8,7 @@ namespace Clone::Windowing
 		Info,
 		Warning,
 		Error,
-		MAX_MESSAGE_TYPE
+		MESSAGE_TYPE_COUNT
 	};
 
 	struct MessageDesc

@@ -2,7 +2,8 @@
 #include "XWin/XWinException.h"
 #include "Tools/Logger.h"
 #include "Tools/Timer.h"
-
+#include "Core/Windowing/Window.h"
+#include <future>
 namespace Clone::Application
 {
 	Application::Application(HINSTANCE hInstance, Config::AppConfig traits)
@@ -16,8 +17,8 @@ namespace Clone::Application
 
 		try
 		{
-			m_appWindowClass = std::make_shared<XWin::XWindowClass>(hInstance, L"CloneWindowClass");
-			m_appMainWindow = std::make_shared<Window>(m_appWindowClass, traits.Window.Title, traits.Window.Width, traits.Window.Height, traits.Window.PosX, traits.Window.PosY);
+			//m_appWindowClass = std::make_shared<XWin::XWindowClass>(hInstance, L"CloneWindowClass");
+			//m_appMainWindow = std::make_shared<Window>(m_appWindowClass, traits.Window.Title, traits.Window.Width, traits.Window.Height, traits.Window.PosX, traits.Window.PosY);
 		}
 		catch (const XWin::XWinException& e)
 		{
@@ -25,8 +26,8 @@ namespace Clone::Application
 		}
 		
 		// Set up callbacks
-		m_appMainWindow->SetResizeCallback([this](HWND hWnd, int w, int h) { Application::OnMainWindowResize(hWnd, w, h); });
-		m_appMainWindow->SetUserWndProcCallback([this](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {Application::WndProc(hWnd, msg, wParam, lParam); });
+		//m_appMainWindow->SetResizeCallback([this](HWND hWnd, int w, int h) { Application::OnMainWindowResize(hWnd, w, h); });
+		//m_appMainWindow->SetUserWndProcCallback([this](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {Application::WndProc(hWnd, msg, wParam, lParam); });
 	}
 	
 	void Application::Run()
@@ -37,7 +38,6 @@ namespace Clone::Application
 			CLONE_FATAL(LoadGame, "Failed to load game");
 		}
 		
-
 		if (!m_gameInstance->PreInit(m_appMainWindow.get()))
 		{
 			CLONE_ERROR(Game Init, "Failed game pre initialization");
@@ -49,6 +49,44 @@ namespace Clone::Application
 			CLONE_ERROR(Game Init, "Failed game initialization");
 		}
 
+		Windowing::WindowDesc windowDesc;
+		windowDesc.Name = "Test";
+		windowDesc.Title = "My Title";
+		windowDesc.StateIsVisible = true;
+		windowDesc.CanFullscreen = true;
+		windowDesc.IsCloseable = true;
+		windowDesc.IsMinimizable = true;
+		windowDesc.IsMaximizable = true;
+		windowDesc.HasFrame = false;
+		windowDesc.IsResizable = true;
+		windowDesc.Width = 1280;
+		windowDesc.Height = 720;
+		Windowing::Window win;
+		Windowing::EventQueue eventQueue;
+		eventQueue.SetProcessingMode(Windowing::EventQueue::ProcessingMode::Poll);
+		win.Create(GetModuleHandle(nullptr), windowDesc, eventQueue);
+		win.Maximize();
+		bool run = true;
+		while (run)
+		{
+			eventQueue.Update();
+
+			while (!eventQueue.IsEmpty())
+			{
+				const auto& e = eventQueue.Front();
+
+				if (e.Type == Windowing::EventType::Keyboard)
+				{
+					if (e.Data.Keyboard.Key == Windowing::Key::X)
+					{
+						win.Close();
+						run = false;
+					}
+				}
+				eventQueue.Pop();
+			}
+		}
+		return;
 
 		Tools::Timer appTimer;
 
