@@ -1,5 +1,0 @@
-
-namespace Clone::Application
-{
-
-}

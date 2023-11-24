@@ -16,7 +16,7 @@ namespace Clone::Game
 		CLONE_DEBUG(GameBase, "Started pre-Initializing Game Base");
 
 		m_parentWindow = parentWindow;
-		m_engine.Engine = std::make_unique<Engine::Engine>(m_parentWindow->GetHandle());
+		//m_engine.Engine = std::make_unique<Engine::Engine>(m_parentWindow->GetHandle());
 				
 		CLONE_DEBUG(GameBase, "Finishd pre-Initializing Game Base");
 		return true;
