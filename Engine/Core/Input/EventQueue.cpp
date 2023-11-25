@@ -259,7 +259,7 @@ namespace Clone::Input
 		}
 		case WM_INPUT:
 		{
-			UINT dwSize;
+			UINT dwSize{};
 
 			GetRawInputData((HRAWINPUT)msg.lParam, RID_INPUT, NULL, &dwSize,
 				sizeof(RAWINPUTHEADER));
@@ -708,6 +708,20 @@ namespace Clone::Input
 			height = static_cast<unsigned>((UINT64)msg.lParam >> 16);
 
 			e = Event(ResizeData(width, height, false), window);
+			break;
+		}
+		case WM_ENTERSIZEMOVE:
+		{
+			RECT rc{};
+			GetClientRect(window->m_hWnd, &rc);
+			e = Event(SizeMoveData(rc.right - rc.left, rc.bottom - rc.top, MoveState::Enter), window);
+			break;
+		}
+		case WM_EXITSIZEMOVE:
+		{
+			RECT rc{};
+			GetClientRect(window->m_hWnd, &rc);
+			e = Event(SizeMoveData(rc.right - rc.left, rc.bottom - rc.top, MoveState::Exit), window);
 			break;
 		}
 		case WM_SIZING:

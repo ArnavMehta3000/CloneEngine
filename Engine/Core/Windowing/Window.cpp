@@ -1,9 +1,10 @@
-#include "Window.h"
-#include "Shobjidl.h"
 #include "dwmapi.h"
-#include <windowsx.h>
+#include "Shobjidl.h"
+#include "Tools/Logger.h"
 #include "Tools/StringHelper.h"
-#include <Tools/Logger.h>
+#include "Window.h"
+#include <format>
+#include <windowsx.h>
 #pragma comment(lib, "dwmapi.lib")
 #pragma comment(lib, "uxtheme.lib")
 
@@ -18,11 +19,12 @@ namespace Clone::Windowing
 
 	bool Window::Create(HINSTANCE hInst, const WindowDesc& desc, Input::InputEventQueue& eventQueue)
 	{
+		CLONE_DEBUG(Window, "Try Creating window: " + desc.Title);
 		m_hInstance = hInst;
 		m_eventQueue = &eventQueue;
 		m_desc = desc;
 
-		std::wstring className = Tools::StringHelper::ToWideString(m_desc.Name);
+		std::wstring className = Tools::StringHelper::ToWideString(m_desc.ClassName);
 		std::wstring loadIcon = Tools::StringHelper::ToWideString(m_desc.IconPath);
 		
 		m_wndClass.cbSize        = sizeof(WNDCLASSEX);
@@ -109,7 +111,7 @@ namespace Clone::Windowing
 
 		AdjustWindowRectEx(&windowRect, m_style, FALSE, m_exStyle);
 
-		auto windowName = Tools::StringHelper::ToWideString(m_desc.Name);
+		auto windowName = Tools::StringHelper::ToWideString(m_desc.ClassName);
 		auto windowTitle = Tools::StringHelper::ToWideString(m_desc.Title);
 
 		_windowBeingCreated = this;
@@ -160,6 +162,8 @@ namespace Clone::Windowing
 			
 		SetTaskbarProgress(0.0f);
 
+		CLONE_DEBUG(Window, "Successfully created window: " + desc.Title);
+
 		return true;
 	}
 
@@ -177,6 +181,7 @@ namespace Clone::Windowing
 		m_desc.Title = title;
 		auto t = Tools::StringHelper::ToWideString(m_desc.Title);
 		SetWindowText(m_hWnd, t.c_str());
+		CLONE_DEBUG(Window, "Set window title: " + title);
 	}
 
 	void Window::GetPosition(unsigned& outX, unsigned& outY) const
@@ -192,16 +197,19 @@ namespace Clone::Windowing
 		SetWindowPos(m_hWnd, 0, posX, posY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		m_desc.PosX = posX;
 		m_desc.PosY = posY;
+		CLONE_DEBUG(Window, std::format("Set window position to - {}x{}", posX, posY));
 	}
 
 	void Window::ShowMouse(bool show)
 	{
 		ShowCursor(show ? TRUE : FALSE);
+		CLONE_DEBUG(Window, "Set show mouse curosr " + show);
 	}
 
 	void Window::SetMousePosition(unsigned posX, unsigned posY)
 	{
 		SetCursorPos(posX, posY);
+		CLONE_DEBUG(Window, std::format("Set mouse position to - {}x{}", posX, posY));
 	}
 
 	void Window::GetCurrentDisplaySize(unsigned& outWidth, unsigned& outHeight) const
@@ -238,6 +246,8 @@ namespace Clone::Windowing
 
 		SetWindowPos(m_hWnd, nullptr, -1, -1, width + border.right + border.left, height + border.top + border.bottom + titlebarHeight,
 			SWP_NOMOVE | SWP_NOREDRAW);
+
+		CLONE_DEBUG(Window, std::format("Set window size to - {}x{}", width, height));
 	}
 
 	float Window::GetDPIScale() const

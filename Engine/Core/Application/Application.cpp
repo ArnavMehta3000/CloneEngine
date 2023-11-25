@@ -52,56 +52,10 @@ namespace Clone::Application
 		m_appTimer = Tools::Timer();
 		m_renderThread = std::thread(&Application::RenderThread, this);
 
-		while (m_isRunning)
-		{
-			m_appTimer.Tick();
-			double dt = m_appTimer.GetDeltaTime();
+		// Main loop of the application
+		EngineLoop();
 
-			m_wndEventQueue.Update();
-
-			// Update game instance
-			if (!m_wndEventQueue.IsEmpty())
-			{
-				while (!m_wndEventQueue.IsEmpty())
-				{
-					auto& e = m_wndEventQueue.Front();
-
-					if (e.Type == Input::EventType::Close)
-					{
-						m_appWindow->Close();
-						m_isRunning = false;
-					}
-
-					// Update with every event
-					m_gameInstance->PreUpdate(dt, e);
-					m_gameInstance->Update(dt, e);
-
-					m_wndEventQueue.Pop();
-				}
-			}
-			else  // No events, simply update the game
-			{
-				// Pass empty event
-				m_gameInstance->PreUpdate(dt, Input::Event());
-				m_gameInstance->Update(dt, Input::Event());
-			}
-
-			// Notify the render thread
-			{
-				std::lock_guard<std::mutex> lock(m_updateMutex);
-				m_updateReady = true;
-				m_doUpdateFlag.store(true, std::memory_order_relaxed);
-			}
-			m_updateCV.notify_one();
-
-			// Wait for the render thread to signal that rendering is complete
-			std::unique_lock<std::mutex> lock(m_renderMutex);
-			m_renderCV.wait(lock, [this] { return m_renderReady.load(); });
-			m_renderReady = false;
-		}
-
-		m_renderThread.join();
-		
+		m_renderThread.join();		
 
 		// Begin game shutdown sequence
 		m_gameInstance->PreShutdown();
@@ -158,6 +112,63 @@ namespace Clone::Application
 		if (m_dllHandle)
 		{
 			FreeLibrary(m_dllHandle);
+		}
+	}
+
+	void Application::EngineLoop()
+	{
+		while (m_isRunning)
+		{
+			m_appTimer.Tick();
+			double dt = m_appTimer.GetDeltaTime();
+
+			m_wndEventQueue.Update();
+
+			// Update game instance (with events)
+			if (!m_wndEventQueue.IsEmpty())
+			{
+				while (!m_wndEventQueue.IsEmpty())
+				{
+					auto& e = m_wndEventQueue.Front();
+					
+					// Capture close event
+					if (e.Type == Input::EventType::Close)
+					{
+						m_appWindow->Close();
+						m_isRunning = false;
+					}
+
+					if (e.Type == Input::EventType::SizeMove && e.Data.SizeMove.State == Input::MoveState::Exit)
+					{
+						
+					}
+					
+					// Update with every event
+					m_gameInstance->PreUpdate(dt, e);
+					m_gameInstance->Update(dt, e);
+
+					m_wndEventQueue.Pop();
+				}
+			}
+			else  // No events, simply update the game
+			{
+				// Pass empty event
+				m_gameInstance->PreUpdate(dt, Input::Event());
+				m_gameInstance->Update(dt, Input::Event());
+			}
+
+			// Notify the render thread
+			{
+				std::lock_guard<std::mutex> lock(m_updateMutex);
+				m_updateReady = true;
+				m_doUpdateFlag.store(true, std::memory_order_relaxed);
+			}
+			m_updateCV.notify_one();
+
+			// Wait for the render thread to signal that rendering is complete
+			std::unique_lock<std::mutex> lock(m_renderMutex);
+			m_renderCV.wait(lock, [this] { return m_renderReady.load(); });
+			m_renderReady = false;
 		}
 	}
 
