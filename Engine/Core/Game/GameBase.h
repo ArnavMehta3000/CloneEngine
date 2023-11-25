@@ -9,6 +9,8 @@
 // Forward declare application classes
 namespace Clone::Application { class Application; }
 
+#pragma warning( push )
+#pragma warning( disable : 4251)
 namespace Clone::Game
 {
 	class CLONE_EXPORT GameBase
@@ -25,6 +27,8 @@ namespace Clone::Game
 		virtual void Update(double deltaTime, const Input::Event& e) = 0;
 		virtual void Shutdown() = 0;
 
+		std::shared_ptr<Rendering::Renderer> GetRenderer() const { return m_renderer; }
+
 	protected:
 		Config::AppConfig& GetAppConfig() { return m_appConfig; }
 		
@@ -35,5 +39,11 @@ namespace Clone::Game
 		void PreShutdown();
 
 		Config::AppConfig m_appConfig;
+		Rendering::RendererPtr m_renderer;
+
+		// Renderer resizing data
+		bool m_resizeNextFrame;
+		Input::Event m_resizeEvent;
 	};
 }
+#pragma warning( pop )

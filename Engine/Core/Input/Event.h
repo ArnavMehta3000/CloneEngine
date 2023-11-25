@@ -1,5 +1,6 @@
 #pragma once
 #include <string_view>
+#include "Common/Defines.h"
 
 namespace Clone::Windowing { class Window; }
 
@@ -364,7 +365,7 @@ namespace Clone::Input
 	};
 #pragma warning( pop )
 
-	class Event
+	class Event final
 	{
 	public:
 		Event(EventType type = EventType::None, Windowing::Window* window = nullptr);

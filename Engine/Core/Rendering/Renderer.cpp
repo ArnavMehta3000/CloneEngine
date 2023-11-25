@@ -24,12 +24,18 @@ namespace Clone::Rendering
 		ComPtr<ID3D11Device> dev11;
 		ComPtr<ID3D11DeviceContext> devcon11;
 
+		UINT flags = 0;
+#ifdef _DEBUG
+		flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // _DEBUG
+
+
 		// Create the device and device context objects
 		hr = D3D11CreateDevice(
 			nullptr,
 			D3D_DRIVER_TYPE_HARDWARE,
 			nullptr,
-			0,
+			flags,
 			nullptr,
 			0,
 			D3D11_SDK_VERSION,
@@ -138,14 +144,17 @@ namespace Clone::Rendering
 		vp.TopLeftY = 0;
 		m_context->RSSetViewports(1, &vp);
 
+		m_width = (int)vp.Width;
+		m_height = (int)vp.Height;
+
 		return true;
 	}
 
 	void Renderer::Resize(int width, int height)
 	{
-		if (!m_swapChain)
+		if (!m_swapChain || !m_device || !m_context)
 		{
-			CLONE_ERROR(Renderer, "Invalid swapchain when trying to resize");
+			CLONE_ERROR(Renderer, "Invalid DX11 resources when trying to resize");
 			return;
 		}
 
@@ -171,7 +180,7 @@ namespace Clone::Rendering
 		}
 
 		// Create a render target pointing to the back buffer
-		hr = m_device->CreateRenderTargetView(backbuffer.Get(), nullptr, m_renderTarget.ReleaseAndGetAddressOf());
+		hr = m_device->CreateRenderTargetView(backbuffer.Get(), nullptr, m_renderTarget.GetAddressOf());
 		if (FAILED(hr))
 		{
 			CLONE_ERROR(Renderer, "Failed to create render target view of back buffer");
@@ -188,6 +197,9 @@ namespace Clone::Rendering
 
 		CLONE_DEBUG(Renderer, std::format("Successfully resized renderer swapchain. Size: {0}x{1}",
 			width, height));
+
+		m_width = width;
+		m_height = height;
 
 		IsResizing = false;
 	}

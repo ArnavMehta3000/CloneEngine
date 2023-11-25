@@ -140,7 +140,15 @@ namespace Clone::Application
 
 					if (e.Type == Input::EventType::SizeMove && e.Data.SizeMove.State == Input::MoveState::Exit)
 					{
-						
+						if (m_gameInstance)
+						{
+							// Check for current renderer size mismatch
+							if (e.Data.SizeMove.Width != m_gameInstance->GetRenderer()->GetWidth() ||
+								e.Data.SizeMove.Height != m_gameInstance->GetRenderer()->GetHeight())
+							{
+								m_gameInstance->GetRenderer()->Resize(e.Data.SizeMove.Width, e.Data.SizeMove.Height);
+							}
+						}
 					}
 					
 					// Update with every event

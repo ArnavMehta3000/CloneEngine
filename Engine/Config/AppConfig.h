@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Windowing/WindowDesc.h"
+#include "RendererConfig.h"
 
 namespace Clone::Config
 {
@@ -9,5 +10,6 @@ namespace Clone::Config
 	struct AppConfig
 	{
 		Windowing::WindowDesc WindowDesc{};
+		RendererConfig RendererConfig{};
 	};
 }

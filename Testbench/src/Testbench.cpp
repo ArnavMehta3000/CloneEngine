@@ -9,6 +9,7 @@ TestbenchClass::TestbenchClass() : Game::GameBase()
 	config.WindowDesc.IsResizable = true;
 	config.WindowDesc.Width = 1280;
 	config.WindowDesc.Height = 720;
+	config.RendererConfig.IsVsyncEnabled = false;
 }
 
 bool TestbenchClass::Init()
@@ -21,7 +22,6 @@ bool TestbenchClass::Init()
 
 void TestbenchClass::Update(double deltaTime, const Input::Event& e)
 {
-	CLONE_INFO(Testbench, "Updating!");
 }
  
 void TestbenchClass::Shutdown()
