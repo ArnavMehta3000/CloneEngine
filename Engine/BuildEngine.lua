@@ -8,12 +8,12 @@ project "CloneEngineCore"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
 
     location "%{wks.location}/Engine/"
-    links { "XWin" }
+    -- links { "" }
 
     includedirs 
     {
         "%{prj.location}/",
-        "%{wks.location}/External/XWin/include/"
+        "%{wks.location}/External/"
     }
 
     files

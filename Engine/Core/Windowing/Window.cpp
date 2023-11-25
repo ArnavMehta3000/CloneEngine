@@ -9,28 +9,21 @@
 
 namespace Clone::Windowing
 {
-	enum Style : DWORD
-	{
-		Windowed = WS_OVERLAPPEDWINDOW,
-		AeroBorderless = WS_POPUP | WS_THICKFRAME,
-		BasicBorderless = WS_CAPTION | WS_OVERLAPPED | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX
-	};
 
 	HBRUSH hBrush = CreateSolidBrush(RGB(30, 30, 30));
-
-
 
 	Window::Window() = default;
 	Window::~Window() = default;
 
 
-	bool Window::Create(HINSTANCE hInst, const WindowDesc& desc, EventQueue& eventQueue)
+	bool Window::Create(HINSTANCE hInst, const WindowDesc& desc, Input::InputEventQueue& eventQueue)
 	{
 		m_hInstance = hInst;
 		m_eventQueue = &eventQueue;
 		m_desc = desc;
 
-		auto className = Tools::StringHelper::ToWideString(m_desc.Name);
+		std::wstring className = Tools::StringHelper::ToWideString(m_desc.Name);
+		std::wstring loadIcon = Tools::StringHelper::ToWideString(m_desc.IconPath);
 		
 		m_wndClass.cbSize        = sizeof(WNDCLASSEX);
 		m_wndClass.style         = CS_HREDRAW | CS_VREDRAW;
@@ -38,7 +31,7 @@ namespace Clone::Windowing
 		m_wndClass.cbClsExtra    = 0;
 		m_wndClass.cbWndExtra    = WS_EX_NOPARENTNOTIFY;
 		m_wndClass.hInstance     = m_hInstance;
-		m_wndClass.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+		m_wndClass.hIcon         = LoadIcon(m_hInstance, loadIcon.c_str());
 		m_wndClass.hCursor       = LoadCursor(NULL, IDC_ARROW);
 		m_wndClass.hbrBackground = hBrush;
 		m_wndClass.lpszMenuName  = NULL;
@@ -67,36 +60,40 @@ namespace Clone::Windowing
 
 			if ((desc.Width != screenWidth) && (desc.Height != screenHeight))
 			{
-				if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) !=
-					DISP_CHANGE_SUCCESSFUL)
+				if (ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
 				{
 					// Stay in Windowed mode
 				}
 			}
+		}
 
-			DWORD exStyle = 0;
-			DWORD style = 0;
+			// Generate style
+		m_style = WS_OVERLAPPEDWINDOW;  // Default style
+		m_exStyle = 0;
+		if (!desc.IsResizable)
+			m_style &= ~WS_THICKFRAME;
+		if (!desc.IsMoveable)
+			m_style &= ~WS_CAPTION;
+		if (!desc.IsCloseable)
+			m_style &= ~WS_SYSMENU;
+		if (!desc.IsMinimizable)
+			m_style &= ~WS_MINIMIZEBOX;
+		if (!desc.IsMaximizable)
+			m_style &= ~WS_MAXIMIZEBOX;
+		if (desc.CanFullscreen)
+			m_style |= WS_OVERLAPPEDWINDOW | WS_POPUP;
 
-			if (m_desc.CanFullscreen)
-			{
-				exStyle = WS_EX_APPWINDOW;
-				style = WS_POPUP | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-			}
-			else
-			{
-				exStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
-				if (m_desc.HasFrame)
-				{
-					style = Style::Windowed;
-				}
-				else
-				{
-					style = Style::BasicBorderless;
-				}
-			}
+		if (!desc.HasFrame)
+			m_exStyle |= WS_EX_DLGMODALFRAME;
 
-			m_style = style;
-			m_exStyle = exStyle;
+		if (!desc.HasShadow)
+			m_exStyle |= WS_EX_TOOLWINDOW;
+
+		// Additional styles for transparency
+		if (desc.IsTransparent)
+		{
+			m_exStyle |= WS_EX_LAYERED;
+			SetLayeredWindowAttributes(nullptr, desc.BackgroundColor, 255, LWA_COLORKEY);
 		}
 
 
@@ -217,7 +214,7 @@ namespace Clone::Windowing
 
 	void Window::GetWindowSize(unsigned& outWidth, unsigned& outHeight) const
 	{
-		RECT lpRect;
+		RECT lpRect{};
 		DwmGetWindowAttribute(m_hWnd, DWMWA_EXTENDED_FRAME_BOUNDS, &lpRect, sizeof(lpRect));
 		int titlebarHeight = (GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXPADDEDBORDER));
 		
@@ -227,7 +224,7 @@ namespace Clone::Windowing
 
 	void Window::SetWindowSize(unsigned width, unsigned height)
 	{
-		RECT rect, frame, border;
+		RECT rect{}, frame{}, border{};
 		GetWindowRect(m_hWnd, &rect);
 		DwmGetWindowAttribute(m_hWnd, DWMWA_EXTENDED_FRAME_BOUNDS, &frame, sizeof(RECT));
 
@@ -261,6 +258,11 @@ namespace Clone::Windowing
 		m_backgroundColor = color;
 	}
 
+	void Window::Show() const
+	{
+		ShowWindow(m_hWnd, SW_SHOWNORMAL);
+	}
+
 	void Window::Minimize() const
 	{
 		ShowWindow(m_hWnd, SW_MINIMIZE);
@@ -287,7 +289,7 @@ namespace Clone::Windowing
 		}
 	}
 
-	void Window::TrackEventAsync(const std::function<void(const Event)>& func)
+	void Window::TrackEventAsync(const std::function<void(const Input::Event)>& func)
 	{
 		m_callback = func;
 	}
@@ -326,7 +328,7 @@ namespace Clone::Windowing
 		SetWindowPos(m_hWnd, 0, desc.PosX, desc.PosY, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 	}
 
-	void Window::ExecuteEventCallback(const Event e)
+	void Window::ExecuteEventCallback(const Input::Event e)
 	{
 		if (m_callback)
 		{

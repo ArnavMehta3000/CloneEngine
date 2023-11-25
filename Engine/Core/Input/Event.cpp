@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <unordered_map>
 
-namespace Clone::Windowing
+namespace Clone::Input
 {
 	static const KeyToCharMap s_keyToCharMap = {
 	"\x1B", "1", "2",  "3",  "4", "5", "6", "7", "8", "9", "0", "-", "=", "\b",
@@ -125,7 +125,7 @@ namespace Clone::Windowing
 		}
 		return k;
 	}
-	KeyboardData::KeyboardData(Windowing::Key key, ButtonState state, ModifierState modifiers)
+	KeyboardData::KeyboardData(Input::Key key, ButtonState state, ModifierState modifiers)
 		:
 		Key(key),
 		State(state),

@@ -1,6 +1,7 @@
 #pragma once
 #include "DirectXHeaders.h"
 #include "Common/Property.h"
+#include "Common/Defines.h"
 
 namespace Clone::Rendering
 {
@@ -27,4 +28,5 @@ namespace Clone::Rendering
 		GraphicsSwapChain m_swapChain;
 		GraphicsRenderTargetView m_renderTarget;
 	};
+
 }
