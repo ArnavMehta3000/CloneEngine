@@ -57,7 +57,7 @@ namespace Clone::Windowing
 		// Window title
 		std::string Title = "Clone Engine Window";
 		// Window name ID
-		std::string Name = "CloneEngine";
+		std::string ClassName = "CloneEngine";
 		// Icon path
 		std::string IconPath = "";
 	};
