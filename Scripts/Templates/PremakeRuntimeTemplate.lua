@@ -8,7 +8,7 @@ project "CloneEngineRuntime"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
 
     location "%{wks.location}/Runtime/"
-    links { "CloneEngineCore", "XWin", "%USER_PROJECT_NAME%" }
+    links { "CloneEngineCore", "%USER_PROJECT_NAME%" }
 
     includedirs 
     {
