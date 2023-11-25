@@ -1,19 +1,20 @@
 #pragma once
-#include "Core/Engine/Engine.h"
+#include "Config/AppConfig.h"
+#include "Tools/Logger.h"
+#include "Common/Defines.h"
+#include "Common/Property.h"
+#include "Core/Windowing/Window.h"
+#include "Core/Rendering/Renderer.h"
 
 // Forward declare application classes
-namespace Clone::Application 
-{ 
-	class Application;
-	class Window;
-}
+namespace Clone::Application { class Application; }
 
 namespace Clone::Game
 {
 	class CLONE_EXPORT GameBase
 	{
 		friend class Clone::Application::Application;
-	public:  // Public functions
+	public:
 		GameBase();
 		GameBase(const GameBase&) = delete;
 		GameBase(const GameBase&&) = delete;
@@ -21,25 +22,18 @@ namespace Clone::Game
 		virtual ~GameBase() = default;
 
 		virtual bool Init() = 0;
-		virtual void Update(double deltaTime) = 0;
+		virtual void Update(double deltaTime, const Input::Event& e) = 0;
 		virtual void Shutdown() = 0;
 
-		inline Engine::Engine* GetEngine() const { return m_engine.Engine.get(); }
-		inline Rendering::Renderer* GetRenderer () const { return m_engine.Engine->GetRenderer(); }
-
-
 	protected:
-
-	protected:  // Protected member variables
-		Application::Window* m_parentWindow;
-
-	private:  // Private member variables
-		bool PreInit(Application::Window* parentWindow);
-		void PreUpdate(double deltaTime);
+		Config::AppConfig& GetAppConfig() { return m_appConfig; }
+		
+	private:
+		bool PreInit(Windowing::WindowPtr parentWindow);
+		void PreUpdate(double deltaTime, const Input::Event& e);
 		void Render();
 		void PreShutdown();
 
-	private: // Private member variables
-		Engine::EnginePtr m_engine;
+		Config::AppConfig m_appConfig;
 	};
 }

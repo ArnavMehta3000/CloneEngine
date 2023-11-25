@@ -3,13 +3,13 @@
 #include "Common/CloneWin.h"
 #include <queue>
 
-namespace Clone::Windowing
-{
-	class Window;
+namespace Clone::Windowing { class Window; }
 
-	class EventQueue
+namespace Clone::Input
+{
+	class InputEventQueue
 	{
-		friend class Window;
+		friend class Windowing::Window;
 	public:
 		enum class ProcessingMode
 		{
@@ -20,7 +20,7 @@ namespace Clone::Windowing
 		};
 
 	public:
-		EventQueue();
+		InputEventQueue();
 		void Update();
 		const Event& Front() const;
 		void Pop();
@@ -29,7 +29,7 @@ namespace Clone::Windowing
 		void SetProcessingMode(ProcessingMode mdode);
 
 	protected:
-		LRESULT PushEvent(MSG msg, Window* window);
+		LRESULT PushEvent(MSG msg, Windowing::Window* window);
 		
 		ProcessingMode m_processingMode;
 		bool m_initialized;

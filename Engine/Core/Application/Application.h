@@ -1,7 +1,11 @@
 #pragma once
 #include "Config/AppConfig.h"
-#include "Core/Application/Window.h"
 #include "Core/Game/GameBase.h"
+#include "Core/Windowing/Window.h"
+#include "Tools/Timer.h"
+#include <mutex>
+#include <thread>
+#include <atomic>
 
 namespace Clone::Application
 {
@@ -19,6 +23,11 @@ namespace Clone::Application
 		bool operator==(const Application& other) const = delete;
 
 		/// <summary>
+		/// Initialize the application
+		/// </summary>
+		void Init();
+
+		/// <summary>
 		/// Run the core application loop
 		/// </summary>
 		void Run();
@@ -34,34 +43,32 @@ namespace Clone::Application
 		/// </summary>
 		void UnloadGame();
 
-	protected:
-		/// <summary>
-		/// Function called when the main window exits resizing
-		/// </summary>
-		/// <param name="newWidth">The new width of the window</param>
-		/// <param name="newHeight">The new height of the window</param>
-		virtual void OnMainWindowResize(HWND hWnd, int newWidth, int newHeight);
 
-		/// <summary>
-		/// Application attached window procedure
-		/// </summary>
-		/// <param name="hWnd">The handle of the window</param>
-		/// <param name="msg">The window message</param>
-		/// <param name="wParam">The WPARAM of the message</param>
-		/// <param name="lParam">The LPARAM of the message</param>
-		virtual void WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	private:
 		typedef Clone::Game::GameBase* (*CreateGame)();
 		typedef void (*ReleaseGame)(void*);
 
+		void RenderThread();
 
-		std::shared_ptr<XWin::XWindowClass> m_appWindowClass{ nullptr };
-		std::shared_ptr<Window> m_appMainWindow{ nullptr };
-		HMODULE m_dllHandle;
-		Game::GameBase* m_gameInstance;
-		CreateGame m_createGameFunc;
-		ReleaseGame m_releaseGameFunc;
-	public:
 
+
+		Tools::Timer           m_appTimer;
+		HINSTANCE              m_hInstance;
+		Windowing::WindowPtr   m_appWindow;
+		Input::InputEventQueue m_wndEventQueue;
+		HMODULE                m_dllHandle;
+		Game::GameBase*        m_gameInstance;
+		CreateGame             m_createGameFunc;
+		ReleaseGame            m_releaseGameFunc;
+
+		std::thread             m_renderThread;
+		std::mutex              m_updateMutex;
+		std::mutex              m_renderMutex;
+		std::condition_variable m_updateCV;
+		std::condition_variable m_renderCV;
+		std::atomic<bool>       m_updateReady;
+		std::atomic<bool>       m_renderReady;
+		std::atomic<bool>       m_doUpdateFlag;
+		std::atomic<bool>       m_isRunning;
 	};
 }

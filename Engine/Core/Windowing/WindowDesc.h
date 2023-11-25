@@ -35,7 +35,7 @@ namespace Clone::Windowing
 		// Is the window maximizable
 		bool IsMaximizable{ true };
 		// Can the window be be fullscreen
-		bool CanFullscreen{ true };
+		bool CanFullscreen{ false };
 
 
 		// Hexidecimal background color (0xffffffff = white)

@@ -1,44 +1,43 @@
 #include "Application.h"
-#include "XWin/XWinException.h"
 #include "Tools/Logger.h"
-#include "Tools/Timer.h"
-#include "Core/Windowing/Window.h"
 #include <future>
+
 namespace Clone::Application
 {
 	Application::Application(HINSTANCE hInstance, Config::AppConfig traits)
 		:
+		m_hInstance(hInstance),
 		m_dllHandle(nullptr),
 		m_gameInstance(nullptr),
 		m_createGameFunc(nullptr),
-		m_releaseGameFunc(nullptr)
-	{
-		CLONE_DEBUG(Application, "Initializing application");
+		m_releaseGameFunc(nullptr),
+		m_updateReady(false),
+		m_renderReady(false),
+		m_isRunning(false)
+	{}
 
-		try
-		{
-			//m_appWindowClass = std::make_shared<XWin::XWindowClass>(hInstance, L"CloneWindowClass");
-			//m_appMainWindow = std::make_shared<Window>(m_appWindowClass, traits.Window.Title, traits.Window.Width, traits.Window.Height, traits.Window.PosX, traits.Window.PosY);
-		}
-		catch (const XWin::XWinException& e)
-		{
-			CLONE_FATAL(Application, e.what());
-		}
-		
-		// Set up callbacks
-		//m_appMainWindow->SetResizeCallback([this](HWND hWnd, int w, int h) { Application::OnMainWindowResize(hWnd, w, h); });
-		//m_appMainWindow->SetUserWndProcCallback([this](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {Application::WndProc(hWnd, msg, wParam, lParam); });
-	}
-	
-	void Application::Run()
+	void Application::Init()
 	{
 		// Load game DLL
 		if (!LoadGame())
 		{
 			CLONE_FATAL(LoadGame, "Failed to load game");
 		}
+
+		// Get app config from loaded game
+		Config::AppConfig appConfig = m_gameInstance->GetAppConfig();
+		m_wndEventQueue.SetProcessingMode(Input::InputEventQueue::ProcessingMode::Poll);
+
+		m_appWindow = std::make_shared<Windowing::Window>();
+		m_appWindow->Create(m_hInstance, appConfig.WindowDesc, m_wndEventQueue);
+
+		m_isRunning = true;
+	}
+	
+	void Application::Run()
+	{
 		
-		if (!m_gameInstance->PreInit(m_appMainWindow.get()))
+		if (!m_gameInstance->PreInit(m_appWindow))
 		{
 			CLONE_ERROR(Game Init, "Failed game pre initialization");
 		}
@@ -48,59 +47,61 @@ namespace Clone::Application
 
 			CLONE_ERROR(Game Init, "Failed game initialization");
 		}
+		
+		// Start timer and launch threads
+		m_appTimer = Tools::Timer();
+		m_renderThread = std::thread(&Application::RenderThread, this);
 
-		Windowing::WindowDesc windowDesc;
-		windowDesc.Name = "Test";
-		windowDesc.Title = "My Title";
-		windowDesc.StateIsVisible = true;
-		windowDesc.CanFullscreen = true;
-		windowDesc.IsCloseable = true;
-		windowDesc.IsMinimizable = true;
-		windowDesc.IsMaximizable = true;
-		windowDesc.HasFrame = false;
-		windowDesc.IsResizable = true;
-		windowDesc.Width = 1280;
-		windowDesc.Height = 720;
-		Windowing::Window win;
-		Windowing::EventQueue eventQueue;
-		eventQueue.SetProcessingMode(Windowing::EventQueue::ProcessingMode::Poll);
-		win.Create(GetModuleHandle(nullptr), windowDesc, eventQueue);
-		win.Maximize();
-		bool run = true;
-		while (run)
+		while (m_isRunning)
 		{
-			eventQueue.Update();
+			m_appTimer.Tick();
+			double dt = m_appTimer.GetDeltaTime();
 
-			while (!eventQueue.IsEmpty())
+			m_wndEventQueue.Update();
+
+			// Update game instance
+			if (!m_wndEventQueue.IsEmpty())
 			{
-				const auto& e = eventQueue.Front();
-
-				if (e.Type == Windowing::EventType::Keyboard)
+				while (!m_wndEventQueue.IsEmpty())
 				{
-					if (e.Data.Keyboard.Key == Windowing::Key::X)
+					auto& e = m_wndEventQueue.Front();
+
+					if (e.Type == Input::EventType::Close)
 					{
-						win.Close();
-						run = false;
+						m_appWindow->Close();
+						m_isRunning = false;
 					}
+
+					// Update with every event
+					m_gameInstance->PreUpdate(dt, e);
+					m_gameInstance->Update(dt, e);
+
+					m_wndEventQueue.Pop();
 				}
-				eventQueue.Pop();
 			}
+			else  // No events, simply update the game
+			{
+				// Pass empty event
+				m_gameInstance->PreUpdate(dt, Input::Event());
+				m_gameInstance->Update(dt, Input::Event());
+			}
+
+			// Notify the render thread
+			{
+				std::lock_guard<std::mutex> lock(m_updateMutex);
+				m_updateReady = true;
+				m_doUpdateFlag.store(true, std::memory_order_relaxed);
+			}
+			m_updateCV.notify_one();
+
+			// Wait for the render thread to signal that rendering is complete
+			std::unique_lock<std::mutex> lock(m_renderMutex);
+			m_renderCV.wait(lock, [this] { return m_renderReady.load(); });
+			m_renderReady = false;
 		}
-		return;
 
-		Tools::Timer appTimer;
-
-		// Core application loop
-		double deltaTime = 0.0f;
-		while (!m_appMainWindow->IsClosing())
-		{
-			appTimer.Tick();
-			deltaTime = appTimer.GetDeltaTime();
-
-			m_gameInstance->PreUpdate(deltaTime);
-			m_gameInstance->Update(deltaTime);
-			m_gameInstance->Render();
-		}
+		m_renderThread.join();
+		
 
 		// Begin game shutdown sequence
 		m_gameInstance->PreShutdown();
@@ -159,20 +160,32 @@ namespace Clone::Application
 			FreeLibrary(m_dllHandle);
 		}
 	}
-	
 
-	void Application::OnMainWindowResize(HWND hWnd, int newWidth, int newHeight)
+	void Application::RenderThread()
 	{
-		CLONE_DEBUG(MainWindow, std::format("Main window resized to: {0} x {1}", newWidth, newHeight));
-		m_gameInstance->GetRenderer()->Resize(newWidth, newHeight);
-	}
+		while (m_isRunning)
+		{
+			// Wait for the update thread to signal that an update is ready
+			std::unique_lock<std::mutex> lock(m_updateMutex);
+			m_updateCV.wait(lock, [this] { return m_updateReady.load(); });
+			m_updateReady = false;
 
-	void Application::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		// TODO: Capture input here?
-		//switch (msg)
-		//{
-		//}
-	}
 
+			// Check if an update should be performed
+			bool doUpdate = m_doUpdateFlag.load(std::memory_order_relaxed);
+
+			// Render the scene
+			if (doUpdate) 
+			{
+				m_gameInstance->Render();
+			}
+
+			// Notify the update thread that rendering is complete
+			{
+				std::lock_guard<std::mutex> lock(m_renderMutex);
+				m_renderReady = true;
+			}
+			m_renderCV.notify_one();
+		}
+	}
 }

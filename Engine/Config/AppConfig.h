@@ -1,5 +1,5 @@
 #pragma once
-//#include "Common/CloneWin.h"
+#include "Core/Windowing/WindowDesc.h"
 
 namespace Clone::Config
 {
@@ -8,15 +8,6 @@ namespace Clone::Config
 	/// </summary>
 	struct AppConfig
 	{
-		// Application window config
-		struct
-		{
-			const wchar_t* Title = L"Clone Engine Window";
-			unsigned int Width = 800;
-			unsigned int Height = 800;
-			unsigned int PosX = (unsigned int)0x80000000;  // Value of CW_USEDEFAULT
-			unsigned int PosY = (unsigned int)0x80000000;  // Value of CW_USEDEFAULT
-		}Window;
-
+		Windowing::WindowDesc WindowDesc{};
 	};
 }
