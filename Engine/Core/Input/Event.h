@@ -10,21 +10,22 @@ namespace Clone::Input
 	enum class EventType : size_t
 	{
 		None = 0,
-		Close,     // Closing a window
-		Create,    // Creating a window
-		Focus,     // Focus/Unfocus on a window
-		Paint,     // Paint events, a good time to present any graphical changes
-		Resize,    // Resizing a window
-		DPI,       // Change in the screen DPI scaling (such as moving a window to a monitor with a larger DPI)
-		Keyboard,  // Keyboard input such as press/release events
-		MouseMove, // Mouse moving events        
-		MouseRaw,  // Raw mouse data events
-		MouseWheel,// Mouse scrolling events        
-		MouseInput,// Mouse button press events        
-		Touch,     // Touch events        
-		Gamepad,   // Gamepad Input Events such as analog sticks, button presses        
-		DropFile,  // Dropping a file on the window        
-		HoverFile, // Hovering a file over a window
+		Close,       // Closing a window
+		Create,      // Creating a window
+		Focus,       // Focus/Unfocus on a window
+		Paint,       // Paint events, a good time to present any graphical changes
+		SizeMove,    // Enter/Exit resizing a window
+		Resize,      // Resizing a window
+		DPI,         // Change in the screen DPI scaling (such as moving a window to a monitor with a larger DPI)
+		Keyboard,    // Keyboard input such as press/release events
+		MouseMove,   // Mouse moving events        
+		MouseRaw,    // Raw mouse data events
+		MouseWheel,  // Mouse scrolling events        
+		MouseInput,  // Mouse button press events        
+		Touch,       // Touch events        
+		Gamepad,     // Gamepad Input Events such as analog sticks, button presses        
+		DropFile,    // Dropping a file on the window        
+		HoverFile,   // Hovering a file over a window
 
 		EVENT_TYPE_COUNT
 	};
@@ -207,6 +208,25 @@ namespace Clone::Input
 		static constexpr EventType Type = EventType::Resize;
 	};
 
+
+	enum class MoveState : size_t
+	{
+		Enter,
+		Exit,
+		MOVE_STATE_COUNT
+	};
+
+	struct SizeMoveData
+	{
+
+		SizeMoveData(unsigned width, unsigned height, MoveState state);
+
+		unsigned Width;
+		unsigned Height;
+		MoveState State;
+		static constexpr EventType Type = EventType::SizeMove;
+	};
+
 	struct DPIData
 	{
 		DPIData(float scale);
@@ -332,6 +352,7 @@ namespace Clone::Input
 
 		FocusData      Focus;
 		ResizeData     Resize;
+		SizeMoveData   SizeMove;
 		DPIData        DPI;
 		KeyboardData   Keyboard;
 		MouseMoveData  MouseMove;
@@ -349,6 +370,7 @@ namespace Clone::Input
 		Event(EventType type = EventType::None, Windowing::Window* window = nullptr);
 		Event(FocusData data, Windowing::Window* window = nullptr);
 		Event(ResizeData data, Windowing::Window* window = nullptr);
+		Event(SizeMoveData data, Windowing::Window* window = nullptr);
 		Event(KeyboardData data, Windowing::Window* window = nullptr);
 		Event(MouseMoveData data, Windowing::Window* window = nullptr);
 		Event(MouseRawData data, Windowing::Window* window = nullptr);

@@ -98,6 +98,13 @@ namespace Clone::Input
 		IsResizing(isResizing)
 	{}
 
+	SizeMoveData::SizeMoveData(unsigned width, unsigned height, MoveState state)
+		:
+		Width(width),
+		Height(height),
+		State(state)
+	{}
+
 	DPIData::DPIData(float scale)
 		:
 		Scale(scale)
@@ -176,6 +183,12 @@ namespace Clone::Input
 		: Type(EventType::Resize), Window(window)
 	{
 		Data.Resize = d;
+	}
+
+	Event::Event(SizeMoveData d, Windowing::Window* window)
+		: Type(EventType::SizeMove), Window(window)
+	{
+		Data.SizeMove = d;
 	}
 
 	Event::Event(KeyboardData d, Windowing::Window* window)

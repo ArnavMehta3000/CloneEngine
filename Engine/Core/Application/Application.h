@@ -48,6 +48,7 @@ namespace Clone::Application
 		typedef Clone::Game::GameBase* (*CreateGame)();
 		typedef void (*ReleaseGame)(void*);
 
+		void EngineLoop();
 		void RenderThread();
 
 
