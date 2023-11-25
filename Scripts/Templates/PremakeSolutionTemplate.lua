@@ -17,5 +17,5 @@ group "Game"
 group ""
 
 group "External"
-    include "{1}/External/Xwin/BuildXWin.lua"
+    -- Add external projects here
 group ""
