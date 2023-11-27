@@ -9,7 +9,7 @@ public:
 	~TestbenchClass() override = default;
 
 	bool Init() override;
-	void Update(double deltaTime, const Input::Event& e) override;
+	void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) override;
 	void Shutdown() override;
 };
 

@@ -5,6 +5,7 @@
 #include "Common/Property.h"
 #include "Core/Windowing/Window.h"
 #include "Core/Rendering/Renderer.h"
+#include "Core/Game/SceneBase.h"
 
 // Forward declare application classes
 namespace Clone::Application { class Application; }
@@ -24,7 +25,7 @@ namespace Clone::Game
 		virtual ~GameBase() = default;
 
 		virtual bool Init() = 0;
-		virtual void Update(double deltaTime, const Input::Event& e) = 0;
+		virtual void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) = 0;
 		virtual void Shutdown() = 0;
 
 		std::shared_ptr<Rendering::Renderer> GetRenderer() const { return m_renderer; }
@@ -34,16 +35,12 @@ namespace Clone::Game
 		
 	private:
 		bool PreInit(Windowing::WindowPtr parentWindow);
-		void PreUpdate(double deltaTime, const Input::Event& e);
+		void PreUpdate([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e);
 		void Render();
 		void PreShutdown();
 
-		Config::AppConfig m_appConfig;
+		Config::AppConfig      m_appConfig;
 		Rendering::RendererPtr m_renderer;
-
-		// Renderer resizing data
-		bool m_resizeNextFrame;
-		Input::Event m_resizeEvent;
 	};
 }
 #pragma warning( pop )

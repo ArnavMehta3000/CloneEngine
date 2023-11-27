@@ -138,6 +138,8 @@ namespace Clone::Application
 						m_isRunning = false;
 					}
 
+					// TODO: Hot reload the DLL on pressing F1
+
 					if (e.Type == Input::EventType::SizeMove && e.Data.SizeMove.State == Input::MoveState::Exit)
 					{
 						if (m_gameInstance)
@@ -167,15 +169,15 @@ namespace Clone::Application
 
 			// Notify the render thread
 			{
-				std::lock_guard<std::mutex> lock(m_updateMutex);
+				std::scoped_lock lock{ m_updateMutex };
 				m_updateReady = true;
 				m_doUpdateFlag.store(true, std::memory_order_relaxed);
 			}
 			m_updateCV.notify_one();
 
 			// Wait for the render thread to signal that rendering is complete
-			std::unique_lock<std::mutex> lock(m_renderMutex);
-			m_renderCV.wait(lock, [this] { return m_renderReady.load(); });
+			std::unique_lock lock(m_renderMutex);
+			m_renderCV.wait(lock, [this]() -> bool { return m_renderReady; });
 			m_renderReady = false;
 		}
 	}
@@ -185,23 +187,23 @@ namespace Clone::Application
 		while (m_isRunning)
 		{
 			// Wait for the update thread to signal that an update is ready
-			std::unique_lock<std::mutex> lock(m_updateMutex);
-			m_updateCV.wait(lock, [this] { return m_updateReady.load(); });
+			std::unique_lock lock(m_updateMutex);
+			m_updateCV.wait(lock, [this] () -> bool { return m_updateReady; });
 			m_updateReady = false;
 
 
 			// Check if an update should be performed
-			bool doUpdate = m_doUpdateFlag.load(std::memory_order_relaxed);
+			bool doRender = m_doUpdateFlag.load(std::memory_order_relaxed);
 
 			// Render the scene
-			if (doUpdate) 
+			if (doRender) 
 			{
 				m_gameInstance->Render();
 			}
 
 			// Notify the update thread that rendering is complete
 			{
-				std::lock_guard<std::mutex> lock(m_renderMutex);
+				std::scoped_lock lock2{ m_renderMutex };
 				m_renderReady = true;
 			}
 			m_renderCV.notify_one();

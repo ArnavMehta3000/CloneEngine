@@ -5,14 +5,14 @@ namespace Clone::Game
 {
 	GameBase::GameBase()
 		:
-		m_appConfig(),
-		m_resizeNextFrame(false),
-		m_resizeEvent()
+		m_appConfig()
 	{}
 
 	bool GameBase::PreInit(Windowing::WindowPtr parentWindow)
 	{
 		CLONE_DEBUG(GameBase, "Started pre-Initializing Game Base");
+		auto scene = SceneBase();
+
 
 		// Init renderer based on config
 		m_renderer = std::make_shared<Rendering::Renderer>();
