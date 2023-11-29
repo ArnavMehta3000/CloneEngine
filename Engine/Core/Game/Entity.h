@@ -48,16 +48,19 @@ namespace Clone::Game
 
 			return component;
 		}
+
 		template <Component::ConceptComponent T>
 		void RemoveComponent()
 		{
 			m_scene->GetWorld().Remove(m_id);
 		}
+
 		template <Component::ConceptComponent T>
 		[[nodiscard]] T* GetComponent()
 		{
 			return m_scene->GetWorld().Get<T>();
 		}
+
 		template <Component::ConceptComponent T>
 		bool HasComponent()
 		{

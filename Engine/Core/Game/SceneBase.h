@@ -31,6 +31,7 @@ namespace Clone::Game
 		inline ECS::World& GetWorld() { return m_world; }
 		inline Rendering::RendererPtr GetRenderer() const { return m_renderer; }
 
+		[[nodiscard]]
 		std::shared_ptr<Entity> CreateEntity(std::string_view name, std::shared_ptr<Entity> parentEntity = nullptr);
 		void DestroyEntity(ECS::EntityID entityId);
 		void DestroyEntity(Entity& entity);

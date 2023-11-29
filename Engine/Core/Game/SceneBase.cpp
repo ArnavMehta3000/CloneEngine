@@ -7,24 +7,7 @@ namespace Clone::Game
 	SceneBase::SceneBase(Rendering::RendererPtr renderer)
 		:
 		m_renderer(renderer)
-	{
-		auto e = CreateEntity("Poo poo");
-		auto e2 = CreateEntity("Pee pee");
-		auto e3 = CreateEntity("Poo pee");
-		auto e4 = CreateEntity("Pee poo");
-
-		struct X
-		{
-			float p;
-		};
-
-		auto t = e->AddComponent<Component::Transform>();
-		auto t2 = e2->AddComponent<Component::Transform>();
-		auto t3 = e3->AddComponent<Component::Transform>();
-		auto t4 = e4->AddComponent<Component::Transform>();
-
-		int x = 0;
-	}
+	{}
 
 	SceneBase::~SceneBase()
 	{
@@ -58,10 +41,11 @@ namespace Clone::Game
 		ECS::EntityID id = m_world.NewEntity();
 		auto entity = std::make_shared<Entity>(id, this, name);
 		
+		CLONE_DEBUG(ECS, "Created entity: " + entity->Name);		
 
-		//entity->AddComponent<Components::Transform>();
+		entity->AddComponent<Component::Transform>();
 		entity->OnCreate();
-
+		
 		return entity;
 	}
 	

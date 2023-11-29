@@ -8,7 +8,10 @@ TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
 bool TestScene::Init()
 {
     SceneBase::Init();
-
+    CreateEntity("Test1");
+    CreateEntity("Test2");
+    CreateEntity("Test3");
+    CreateEntity("Test4");
     CLONE_INFO(TEST, "Initialized test scene");
     return true;
 }
