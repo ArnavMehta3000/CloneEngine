@@ -16,7 +16,7 @@ namespace Clone::Game
 	{
 		friend class SceneBase;
 	private:
-		enum class Atrributes : int
+		enum class Attributes : int
 		{ 
 			IsActive, 
 			NeedsDestroy,
@@ -30,6 +30,9 @@ namespace Clone::Game
 		void OnCreate();
 		void OnDestroy();
 		void OnUpdate([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e);
+
+		inline const ECS::EntityID& GetId() const { return m_id; }
+		void DestoryThis();
 
 		std::string Name;
 		
@@ -58,7 +61,7 @@ namespace Clone::Game
 		template <Component::ConceptComponent T>
 		[[nodiscard]] T* GetComponent()
 		{
-			return m_scene->GetWorld().Get<T>();
+			return m_scene->GetWorld().Get<T>(m_id);
 		}
 
 		template <Component::ConceptComponent T>
@@ -69,7 +72,10 @@ namespace Clone::Game
 #pragma endregion
 
 	private:
-		std::bitset<(int)Atrributes::ENTITY_ATRRIBUTES_COUNT> m_attributes;
+		inline void SetAttribute(Entity::Attributes attr, bool value) { m_attributes.set(static_cast<int>(attr), value); }
+		inline bool GetAttribute(Entity::Attributes attr) const { return m_attributes.test(static_cast<int>(attr)); }
+
+		std::bitset<(int)Attributes::ENTITY_ATRRIBUTES_COUNT> m_attributes;
 
 		SceneBase*     m_scene;
 		ECS::EntityID  m_id;

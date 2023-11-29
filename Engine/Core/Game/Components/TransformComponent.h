@@ -16,6 +16,7 @@ namespace Clone::Component
 		void RemoveChild(ECS::EntityID id);
 		const std::unordered_set<ECS::EntityID>& GetChildren() const;
 		Transform* GetParent() const;
+		void SetParent(Transform* parent);
 
 		// TODO: add world or local space param
 		void Translate(Math::Vector3 translation);

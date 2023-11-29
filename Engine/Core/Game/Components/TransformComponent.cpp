@@ -61,6 +61,11 @@ namespace Clone::Component
 		return m_parent;
 	}
 
+	void Transform::SetParent(Transform* parent)
+	{
+		m_parent = parent;
+	}
+
 	void Transform::Translate(Math::Vector3 translation)
 	{
 		m_Position += translation;

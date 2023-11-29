@@ -30,6 +30,7 @@ namespace Clone::Component
 			m_ComponentName(name)
 		{
 			m_OwnerID = CLONE_INVALID_ENTITY;
+			SetAttribute(Attributes::IsActive, true);
 		}
 
 		virtual ~ComponentBase() {}

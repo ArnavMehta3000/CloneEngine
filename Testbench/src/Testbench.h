@@ -12,9 +12,6 @@ public:
 	bool Init() override;
 	void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) override;
 	void Shutdown() override;
-
-private:
-	TestScene* m_scene;
 };
 
 

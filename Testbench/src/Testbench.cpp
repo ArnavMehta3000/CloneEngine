@@ -15,19 +15,19 @@ TestbenchClass::TestbenchClass() : Game::GameBase()
 bool TestbenchClass::Init()
 {
 	CLONE_DEBUG(Testbench, "Started Testbench initialization");
-	m_scene = new TestScene(GetRenderer());
-	m_scene->Init();
+	m_activeScene = std::make_unique<TestScene>(GetRenderer());
+	m_activeScene->Init();
 	CLONE_DEBUG(Testbench, "Finished Testbench initialization");
 	return true;
 }
 
 void TestbenchClass::Update(double deltaTime, const Input::Event& e)
 {
-	m_scene->Update(deltaTime, e);
+	m_activeScene->Update(deltaTime, e);
 }
  
 void TestbenchClass::Shutdown()
 {
-	m_scene->Shutdown();
+	m_activeScene->Shutdown();
 	CLONE_DEBUG(Testbench, "Testbench Shutdown");
 }

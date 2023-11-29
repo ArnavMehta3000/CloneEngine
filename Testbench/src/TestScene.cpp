@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Core/Game/Entity.h"
 
 TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
 {
@@ -8,10 +9,15 @@ TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
 bool TestScene::Init()
 {
     SceneBase::Init();
-    CreateEntity("Test1");
-    CreateEntity("Test2");
-    CreateEntity("Test3");
-    CreateEntity("Test4");
+    auto e1 = CreateEntity("Test1");
+    auto e2 = CreateEntity("Test2");
+    auto e3 = CreateEntity("Test3");
+    auto e4 = CreateEntity("Test4");
+    e1->DestoryThis();
+    e2->DestoryThis();
+    e3->DestoryThis();
+    e4->DestoryThis();
+
     CLONE_INFO(TEST, "Initialized test scene");
     return true;
 }

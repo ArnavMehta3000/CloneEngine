@@ -31,6 +31,7 @@ namespace Clone::Game
 
 	protected:
 		Config::AppConfig& GetAppConfig() { return m_appConfig; }
+		std::unique_ptr<SceneBase> m_activeScene;
 		
 	private:
 		bool PreInit(Windowing::WindowPtr parentWindow);
@@ -40,7 +41,6 @@ namespace Clone::Game
 
 		Config::AppConfig      m_appConfig;
 		Rendering::RendererPtr m_renderer;
-		SceneBase* m_activeScene;
 	};
 }
 #pragma warning( pop )

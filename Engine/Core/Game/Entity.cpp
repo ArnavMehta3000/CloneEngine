@@ -11,7 +11,10 @@ namespace Clone::Game
 		m_scene(scene),
 		m_id(id),
 		Name(name)
-	{}
+	{
+		SetAttribute(Attributes::IsActive, true);
+		SetAttribute(Attributes::NeedsDestroy, false);
+	}
 
 	Entity::~Entity()
 	{
@@ -28,5 +31,10 @@ namespace Clone::Game
 
 	void Entity::OnUpdate(double deltaTime, const Input::Event& e)
 	{
+	}
+
+	void Entity::DestoryThis()
+	{
+		SetAttribute(Attributes::NeedsDestroy, true);
 	}
 }
