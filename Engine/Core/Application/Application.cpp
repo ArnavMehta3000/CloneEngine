@@ -16,6 +16,15 @@ namespace Clone::Application
 		m_isRunning(false)
 	{}
 
+	Application::~Application()
+	{
+		if (m_gameInstance)
+		{
+			// Game instance is deleted by DLL
+			m_gameInstance = nullptr;
+		}
+	}
+
 	void Application::Init()
 	{
 		// Load game DLL
@@ -67,6 +76,7 @@ namespace Clone::Application
 
 	bool Application::LoadGame()
 	{	
+		int* i = new int();
 		m_dllHandle = LoadLibraryA("Testbench.dll");
 		if (m_dllHandle != nullptr)
 		{

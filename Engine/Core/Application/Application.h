@@ -18,6 +18,7 @@ namespace Clone::Application
 
 	public:
 		explicit Application(HINSTANCE hInstance, Config::AppConfig traits = {});
+		~Application();
 		Application(const Application&) = delete;
 		Application(Application&&) = delete;
 		bool operator==(const Application& other) const = delete;

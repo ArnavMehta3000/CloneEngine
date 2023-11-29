@@ -44,8 +44,6 @@ namespace Clone::ECS
 		}
 	}
 
-#define CLONE_INVALID_ENTITY ECS::CreateEntityId(EntityIndex(-1), 0)
-
 	template <class T>
 	ComponentID GetId()
 	{
@@ -299,3 +297,6 @@ namespace Clone::ECS
 		bool          m_all{ false };
 	};
 }
+
+// Create an invalid entity id
+#define CLONE_INVALID_ENTITY Clone::ECS::CreateEntityId(Clone::ECS::EntityIndex(-1), 0)

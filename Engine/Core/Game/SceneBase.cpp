@@ -7,11 +7,18 @@ namespace Clone::Game
 	{
 		auto e = CreateEntity("Poo poo");
 		auto e2 = CreateEntity("Pee pee");
+		auto e3 = CreateEntity("Poo pee");
+		auto e4 = CreateEntity("Pee poo");
 
-		e2->SetParent(e);
-		e2->SetParent(nullptr);
-		e->AddChild(e2);
-		e->AddChild(e2);
+		struct X
+		{
+			float p;
+		};
+
+		auto t = e->AddComponent<Component::Transform>();
+		auto t2 = e2->AddComponent<Component::Transform>();
+		auto t3 = e3->AddComponent<Component::Transform>();
+		auto t4 = e4->AddComponent<Component::Transform>();
 
 		int x = 0;
 	}
@@ -25,10 +32,8 @@ namespace Clone::Game
 		ECS::EntityID id = m_world.NewEntity();
 		auto entity = std::make_shared<Entity>(id, this, name);
 		
-		if (parentEntity != nullptr)
-			entity->SetParent(parentEntity);
 
-		entity->AddComponent<Components::TransformComponent>();
+		//entity->AddComponent<Components::Transform>();
 		entity->OnCreate();
 
 		return entity;
@@ -36,6 +41,7 @@ namespace Clone::Game
 	
 	void SceneBase::DestroyEntity(ECS::EntityID entityId)
 	{
+		
 	}
 	
 	void SceneBase::DestroyEntity(Entity& entity)
