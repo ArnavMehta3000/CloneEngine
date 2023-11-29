@@ -9,7 +9,7 @@ TestbenchClass::TestbenchClass() : Game::GameBase()
 	config.WindowDesc.IsResizable = true;
 	config.WindowDesc.Width = 1280;
 	config.WindowDesc.Height = 720;
-	config.RendererConfig.IsVsyncEnabled = false;
+	config.RendererConfig.IsVsyncEnabled = true;
 }
 
 bool TestbenchClass::Init()
@@ -21,9 +21,14 @@ bool TestbenchClass::Init()
 	return true;
 }
 
-void TestbenchClass::Update(double deltaTime, const Input::Event& e)
+void TestbenchClass::Update(const double deltaTime, const Input::Event& e)
 {
 	m_activeScene->Update(deltaTime, e);
+}
+
+void TestbenchClass::FixedUpdate(const double fixedDeltaTime)
+{
+	GameBase::FixedUpdate(fixedDeltaTime);
 }
  
 void TestbenchClass::Shutdown()

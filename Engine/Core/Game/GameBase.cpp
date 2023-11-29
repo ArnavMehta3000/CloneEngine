@@ -25,10 +25,15 @@ namespace Clone::Game
 		return true;
 	}
 
-	void GameBase::PostUpdate(double deltaTime, const Input::Event& e)
+	void GameBase::PostUpdate(const double deltaTime, const Input::Event& e)
 	{
 		if (m_activeScene)
 			m_activeScene->PostUpdate(deltaTime, e);
+	}
+
+	void GameBase::FixedUpdate(const double fixedDeltaTime)
+	{
+		CLONE_DEBUG(Game Base, "Fixed update");
 	}
 
 	void GameBase::Render()

@@ -127,10 +127,14 @@ namespace Clone::Application
 
 	void Application::EngineLoop()
 	{
+		double fixedUpdateRate = m_gameInstance->GetAppConfig().EngineConfig.FixedUpdateRate;
+		double physicsAccumulator = 0.0;
+
 		while (m_isRunning)
 		{
 			m_appTimer.Tick();
 			double dt = m_appTimer.GetDeltaTime();
+			physicsAccumulator += dt;
 
 			m_wndEventQueue.Update();
 
@@ -175,6 +179,13 @@ namespace Clone::Application
 				// Pass empty event
 				m_gameInstance->Update(dt, Input::Event());
 				m_gameInstance->PostUpdate(dt, Input::Event());
+			}
+
+			// Perform physics update
+			while (physicsAccumulator >= fixedUpdateRate)
+			{
+				m_gameInstance->FixedUpdate(fixedUpdateRate);
+				physicsAccumulator -= fixedUpdateRate;
 			}
 
 			// Notify the render thread

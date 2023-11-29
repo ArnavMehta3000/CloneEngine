@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Windowing/WindowDesc.h"
 #include "RendererConfig.h"
+#include "EngineConfig.h"
 
 namespace Clone::Config
 {
@@ -10,6 +11,7 @@ namespace Clone::Config
 	struct AppConfig
 	{
 		Windowing::WindowDesc WindowDesc{};
+		EngineConfig EngineConfig{};
 		RendererConfig RendererConfig{};
 	};
 }
