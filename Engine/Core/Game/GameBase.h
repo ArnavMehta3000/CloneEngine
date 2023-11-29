@@ -2,7 +2,6 @@
 #include "Config/AppConfig.h"
 #include "Tools/Logger.h"
 #include "Common/Defines.h"
-#include "Common/Property.h"
 #include "Core/Windowing/Window.h"
 #include "Core/Rendering/Renderer.h"
 #include "Core/Game/SceneBase.h"
@@ -35,12 +34,13 @@ namespace Clone::Game
 		
 	private:
 		bool PreInit(Windowing::WindowPtr parentWindow);
-		void PreUpdate([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e);
+		void PostUpdate([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e);
 		void Render();
 		void PreShutdown();
 
 		Config::AppConfig      m_appConfig;
 		Rendering::RendererPtr m_renderer;
+		SceneBase* m_activeScene;
 	};
 }
 #pragma warning( pop )

@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Game/GameBase.h"
+#include "TestScene.h"
 using namespace Clone;
 
 class CLONE_EXPORT TestbenchClass : public Game::GameBase
@@ -11,6 +12,9 @@ public:
 	bool Init() override;
 	void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) override;
 	void Shutdown() override;
+
+private:
+	TestScene* m_scene;
 };
 
 

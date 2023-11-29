@@ -11,9 +11,7 @@ namespace Clone::Game
 	bool GameBase::PreInit(Windowing::WindowPtr parentWindow)
 	{
 		CLONE_DEBUG(GameBase, "Started pre-Initializing Game Base");
-		auto scene = SceneBase();
-
-
+		
 		// Init renderer based on config
 		m_renderer = std::make_shared<Rendering::Renderer>();
 		GetRenderer()->IsResizing = GetAppConfig().RendererConfig.IsVsyncEnabled;
@@ -27,21 +25,26 @@ namespace Clone::Game
 		return true;
 	}
 
-	void GameBase::PreUpdate(double deltaTime, const Input::Event& e)
+	void GameBase::PostUpdate(double deltaTime, const Input::Event& e)
 	{
+		if (m_activeScene)
+			m_activeScene->PostUpdate(deltaTime, e);
 	}
 
 	void GameBase::Render()
 	{
 		GetRenderer()->Clear(0.1f, 0.1f, 0.15f, 1.0f);
 		GetRenderer()->RenderFrame();
+
+		if (m_activeScene)
+			m_activeScene->Render();
 	}
 
 	void GameBase::PreShutdown()
 	{
 		CLONE_DEBUG(GameBase, "Started Game Base pre-shutdown");
-
-
+		if (m_activeScene)
+			m_activeScene->PreShutdown();
 		CLONE_DEBUG(GameBase, "Finished Game Base pre-shutdown");
 	}
 }

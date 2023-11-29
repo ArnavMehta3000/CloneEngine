@@ -23,8 +23,8 @@ namespace Clone::Rendering
 
 		// Enable or disable VSYNC for presenting
 		CLONE_AUTO_PROPERTY(bool, IsVsyncEnabled)
-			// Flag for checking if the renderer is resizing
-			CLONE_AUTO_PROPERTY(bool, IsResizing)
+		// Flag for checking if the renderer is resizing
+		CLONE_AUTO_PROPERTY(bool, IsResizing)
 
 	private:
 		GraphicsDevice m_device;

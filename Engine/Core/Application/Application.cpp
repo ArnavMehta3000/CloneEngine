@@ -164,8 +164,8 @@ namespace Clone::Application
 					}
 					
 					// Update with every event
-					m_gameInstance->PreUpdate(dt, e);
 					m_gameInstance->Update(dt, e);
+					m_gameInstance->PostUpdate(dt, e);
 
 					m_wndEventQueue.Pop();
 				}
@@ -173,8 +173,8 @@ namespace Clone::Application
 			else  // No events, simply update the game
 			{
 				// Pass empty event
-				m_gameInstance->PreUpdate(dt, Input::Event());
 				m_gameInstance->Update(dt, Input::Event());
+				m_gameInstance->PostUpdate(dt, Input::Event());
 			}
 
 			// Notify the render thread
