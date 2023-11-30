@@ -21,10 +21,14 @@ namespace Clone::Game
 		return true;
 	}
 	
-	void SceneBase::Update(double deltaTime, const Input::Event& e)
+	void SceneBase::Update(const double deltaTime, const Input::Event& e)
 	{
-		CLONE_INFO(SceneBase, "Updating scene base");
-		
+		CLONE_INFO(SceneBase, "Updating scene base");		
+	}
+
+	void SceneBase::FixedUpdate(const double fixedDeltaTime)
+	{
+		CLONE_INFO(SceneBase, "Fixed updating the scene");
 	}
 
 	void SceneBase::PostUpdate(double deltaTime, const Input::Event& e)

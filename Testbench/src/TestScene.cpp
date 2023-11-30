@@ -28,6 +28,12 @@ void TestScene::Update(double deltaTime, const Input::Event& e)
     CLONE_INFO(TEST, "Updated test scene");
 }
 
+void TestScene::FixedUpdate(double fixedDeltaTime)
+{
+    SceneBase::FixedUpdate(fixedDeltaTime);
+    CLONE_INFO(TEST, "Test scene Fixed Update");
+}
+
 void TestScene::Shutdown()
 {
     SceneBase::Shutdown();

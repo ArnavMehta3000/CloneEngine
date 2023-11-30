@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Game/Components/Components.h"
-#include "Core/Game/SceneBase.h"
+#include "Core/Game/Scene/SceneBase.h"
 #include "Core/Input/Event.h"
 #include "Tools/Logger.h"
 #include <bitset>

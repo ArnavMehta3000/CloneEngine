@@ -4,11 +4,12 @@ TestbenchClass::TestbenchClass() : Game::GameBase()
 {
 	// Configure application here
 	auto& config = GetAppConfig();
-	config.WindowDesc.Title = "Testbench ";
-	config.WindowDesc.CanFullscreen = false;
-	config.WindowDesc.IsResizable = true;
-	config.WindowDesc.Width = 1280;
-	config.WindowDesc.Height = 720;
+
+	config.WindowDesc.Title              = "Testbench ";
+	config.WindowDesc.CanFullscreen      = false;
+	config.WindowDesc.IsResizable        = true;
+	config.WindowDesc.Width              = 1280;
+	config.WindowDesc.Height             = 720;
 	config.RendererConfig.IsVsyncEnabled = true;
 }
 
@@ -23,7 +24,10 @@ bool TestbenchClass::Init()
 
 void TestbenchClass::Update(const double deltaTime, const Input::Event& e)
 {
-	m_activeScene->Update(deltaTime, e);
+	if (m_activeScene)
+	{
+		m_activeScene->Update(deltaTime, e);
+	}
 }
 
 void TestbenchClass::FixedUpdate(const double fixedDeltaTime)
@@ -33,6 +37,5 @@ void TestbenchClass::FixedUpdate(const double fixedDeltaTime)
  
 void TestbenchClass::Shutdown()
 {
-	m_activeScene->Shutdown();
 	CLONE_DEBUG(Testbench, "Testbench Shutdown");
 }

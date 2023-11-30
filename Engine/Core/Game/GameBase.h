@@ -4,7 +4,7 @@
 #include "Common/Defines.h"
 #include "Core/Windowing/Window.h"
 #include "Core/Rendering/Renderer.h"
-#include "Core/Game/SceneBase.h"
+#include "Core/Game/Scene/SceneBase.h"
 
 // Forward declare application classes
 namespace Clone::Application { class Application; }

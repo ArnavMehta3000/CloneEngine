@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <ranges>
 #include <execution>
-#include "Core/Game/SceneBase.h"
+#include "Core/Game/Scene/SceneBase.h"
 
 namespace Clone::Game
 {
