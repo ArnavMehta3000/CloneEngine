@@ -51,7 +51,7 @@ namespace Clone::Application
 
 
 
-		Tools::Timer           m_appTimer;
+		Utils::Timer           m_appTimer;
 		HINSTANCE              m_hInstance;
 		Windowing::WindowPtr   m_appWindow;
 		Input::InputEventQueue m_wndEventQueue;

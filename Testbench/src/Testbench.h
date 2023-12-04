@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Game/GameBase.h"
 #include "TestScene.h"
+
 using namespace Clone;
 
 class CLONE_EXPORT TestbenchClass : public Game::GameBase

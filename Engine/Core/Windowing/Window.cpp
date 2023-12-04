@@ -21,8 +21,8 @@ namespace Clone::Windowing
 		m_eventQueue = &eventQueue;
 		m_desc = desc;
 
-		std::wstring className = Tools::StringHelper::ToWideString(m_desc.ClassName);
-		std::wstring loadIcon = Tools::StringHelper::ToWideString(m_desc.IconPath);
+		std::wstring className = Utils::StringHelper::ToWideString(m_desc.ClassName);
+		std::wstring loadIcon = Utils::StringHelper::ToWideString(m_desc.IconPath);
 		
 		m_wndClass.cbSize        = sizeof(WNDCLASSEX);
 		m_wndClass.style         = CS_HREDRAW | CS_VREDRAW;
@@ -108,8 +108,8 @@ namespace Clone::Windowing
 
 		AdjustWindowRectEx(&windowRect, m_style, FALSE, m_exStyle);
 
-		auto windowName = Tools::StringHelper::ToWideString(m_desc.ClassName);
-		auto windowTitle = Tools::StringHelper::ToWideString(m_desc.Title);
+		auto windowName = Utils::StringHelper::ToWideString(m_desc.ClassName);
+		auto windowTitle = Utils::StringHelper::ToWideString(m_desc.Title);
 
 		_windowBeingCreated = this;
 		m_hWnd = CreateWindowEx(0, windowName.c_str(), windowTitle.c_str(), m_style,
@@ -176,7 +176,7 @@ namespace Clone::Windowing
 	void Window::SetTitle(const std::string& title)
 	{
 		m_desc.Title = title;
-		auto t = Tools::StringHelper::ToWideString(m_desc.Title);
+		auto t = Utils::StringHelper::ToWideString(m_desc.Title);
 		SetWindowText(m_hWnd, t.c_str());
 		CLONE_DEBUG(Window, "Set window title: " + title);
 	}

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace Clone::Tools
+namespace Clone::Utils
 {
 	/// <summary>
 	/// Enum defining the verbosity of the log message
@@ -56,18 +56,18 @@ namespace Clone::Tools
 #define DISABLE_LOGGING 1
 
 #if DISABLE_LOGGING
-#define CLONE_TRACE(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
+#define CLONE_TRACE(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
 #define CLONE_DEBUG(Category, Message) 
 #define CLONE_INFO(Category, Message) 
 #define CLONE_WARN(Category, Message) 
 #define CLONE_ERROR(Category, Message) 
 #define CLONE_FATAL(Category, Message) 
 #else
-#define CLONE_TRACE(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
-#define CLONE_DEBUG(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
-#define CLONE_INFO(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Info, #Category, Message, std::stacktrace::current() })
-#define CLONE_WARN(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
-#define CLONE_ERROR(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Error, #Category, Message, std::stacktrace::current() })
-#define CLONE_FATAL(Category, Message) Clone::Tools::Logger::Log(Clone::Tools::LogMessage{ Clone::Tools::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()  
+#define CLONE_TRACE(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
+#define CLONE_DEBUG(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Debug, #Category, Message, std::stacktrace::current() }) 
+#define CLONE_INFO(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Info, #Category, Message, std::stacktrace::current() })
+#define CLONE_WARN(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Warn, #Category, Message, std::stacktrace::current() })
+#define CLONE_ERROR(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Error, #Category, Message, std::stacktrace::current() })
+#define CLONE_FATAL(Category, Message) Clone::Utils::Logger::Log(Clone::Utils::LogMessage{ Clone::Utils::LogLevel::Fatal, #Category, Message, std::stacktrace::current() }); __debugbreak()  
 #endif // DISABLE_LOGGING
 }

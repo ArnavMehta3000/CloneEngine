@@ -25,9 +25,9 @@ namespace Clone::Rendering
 		CLONE_AUTO_PROPERTY(bool, IsResizing)
 
 	private:
-		GraphicsDevice m_device;
-		GraphicsContext m_context;
-		GraphicsSwapChain m_swapChain;
+		GraphicsDevice           m_device;
+		GraphicsContext          m_context;
+		GraphicsSwapChain        m_swapChain;
 		GraphicsRenderTargetView m_renderTarget;
 
 		int m_width;

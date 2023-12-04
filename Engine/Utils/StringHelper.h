@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace Clone::Tools
+namespace Clone::Utils
 {
 	class StringHelper
 	{

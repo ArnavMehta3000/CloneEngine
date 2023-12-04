@@ -1,9 +1,8 @@
 #include "Common/CloneWin.h"
 #include "Core/Application/Application.h"
-#include "Tools/Logger.h"
 
 using namespace Clone::Application;
-using namespace Clone::Tools;
+using namespace Clone::Utils;
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,

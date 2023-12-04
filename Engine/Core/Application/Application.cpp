@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "Tools/Logger.h"
 
 namespace Clone::Application
 {
@@ -57,7 +56,7 @@ namespace Clone::Application
 		}
 		
 		// Start timer and launch threads
-		m_appTimer = Tools::Timer();
+		m_appTimer = Utils::Timer();
 		m_renderThread = std::thread(&Application::RenderThread, this);
 
 		// Main loop of the application

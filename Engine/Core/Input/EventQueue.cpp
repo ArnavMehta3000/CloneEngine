@@ -4,7 +4,7 @@
 #include "dwmapi.h"
 #include <windowsx.h>
 #include <tchar.h>
-#include "Tools/Logger.h"
+#include "Utils/Logger.h"
 
 namespace Clone::Input
 {

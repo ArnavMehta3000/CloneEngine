@@ -1,21 +1,21 @@
 #include "Logger.h"
 #include "Common/CloneWin.h"
 
-namespace Clone::Tools
+namespace Clone::Utils
 {
 	std::string_view LogLevelToString(LogLevel level)
 	{
 		switch (level)
 		{
-		case Clone::Tools::LogLevel::Debug:
+		case Clone::Utils::LogLevel::Debug:
 			return "Debug";
-		case Clone::Tools::LogLevel::Info:
+		case Clone::Utils::LogLevel::Info:
 			return "Info";
-		case Clone::Tools::LogLevel::Warn:
+		case Clone::Utils::LogLevel::Warn:
 			return "Warn";
-		case Clone::Tools::LogLevel::Error:
+		case Clone::Utils::LogLevel::Error:
 			return "Error";
-		case Clone::Tools::LogLevel::Fatal:
+		case Clone::Utils::LogLevel::Fatal:
 			return "Fatal Error";
 		default:
 			return "Undefined";

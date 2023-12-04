@@ -1,10 +1,10 @@
 #pragma once
 #include <chrono>
 
-namespace Clone::Tools
+namespace Clone::Utils
 {
 	/// <summary>
-	/// Simple time class that starts on construction
+	/// Simple timer class that starts on construction
 	/// </summary>
 	class Timer
 	{

@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/Game/Scene/SceneBase.h"
+
 using namespace Clone;
 
 class TestScene : public Game::SceneBase

@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-namespace Clone::Tools
+namespace Clone::Utils
 {
 	Timer::Timer()
 		:
