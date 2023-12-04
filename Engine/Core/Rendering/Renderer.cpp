@@ -9,9 +9,10 @@ namespace Clone::Rendering
 		m_context(nullptr),
 		m_swapChain(nullptr),
 		m_IsVsyncEnabled(false),
-		m_IsResizing(false)
-	{
-	}
+		m_IsResizing(false),
+		m_width(0),
+		m_height(0)
+	{}
 
 	Renderer::~Renderer()
 	{
@@ -24,11 +25,10 @@ namespace Clone::Rendering
 		ComPtr<ID3D11Device> dev11;
 		ComPtr<ID3D11DeviceContext> devcon11;
 
-		UINT flags = 0;
+		UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
 		flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif // _DEBUG
-
 
 		// Create the device and device context objects
 		hr = D3D11CreateDevice(

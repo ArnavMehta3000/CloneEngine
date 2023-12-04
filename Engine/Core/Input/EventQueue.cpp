@@ -3,6 +3,7 @@
 #include "Shobjidl.h"
 #include "dwmapi.h"
 #include <windowsx.h>
+#include <tchar.h>
 #include "Tools/Logger.h"
 
 namespace Clone::Input
@@ -109,23 +110,23 @@ namespace Clone::Input
 		}
 		case WM_PAINT:
 		{
-			PAINTSTRUCT ps;
-			BeginPaint(window->m_hWnd, &ps);
-			RECT rect;
-			GetWindowRect(window->m_hWnd, &rect);
-			int cxWidth = rect.right - rect.left;
-			int cyHeight = rect.bottom - rect.top;
-			unsigned bg = window->GetDesc().BackgroundColor;
-			unsigned r = (bg & 0xff000000) >> 24;
-			unsigned g = (bg & 0x00ff0000) >> 16;
-			unsigned b = (bg & 0x0000ff00) >> 8;
-			HBRUSH BorderBrush = CreateSolidBrush(RGB(r, g, b));
-			rect.left = 0;
-			rect.top = 0;
-			rect.right = cxWidth;
-			rect.bottom = cyHeight;
-			FillRect(ps.hdc, &rect, BorderBrush);
-			EndPaint(window->m_hWnd, &ps);
+			// PAINTSTRUCT ps;
+			// BeginPaint(window->m_hWnd, &ps);
+			// RECT rect;
+			// GetWindowRect(window->m_hWnd, &rect);
+			// int cxWidth = rect.right - rect.left;
+			// int cyHeight = rect.bottom - rect.top;
+			// unsigned bg = window->GetDesc().BackgroundColor;
+			// unsigned r = (bg & 0xff000000) >> 24;
+			// unsigned g = (bg & 0x00ff0000) >> 16;
+			// unsigned b = (bg & 0x0000ff00) >> 8;
+			// HBRUSH BorderBrush = CreateSolidBrush(RGB(r, g, b));
+			// rect.left = 0;
+			// rect.top = 0;
+			// rect.right = cxWidth;
+			// rect.bottom = cyHeight;
+			// FillRect(ps.hdc, &rect, BorderBrush);
+			// EndPaint(window->m_hWnd, &ps);
 
 			e = Event(EventType::Paint, window);
 			break;

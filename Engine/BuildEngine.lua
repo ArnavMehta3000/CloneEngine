@@ -12,8 +12,7 @@ project "CloneEngineCore"
 
     includedirs 
     {
-        "%{prj.location}/",
-        "%{wks.location}/External/"
+        "%{prj.location}/"
     }
 
     files
@@ -23,8 +22,6 @@ project "CloneEngineCore"
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
         "%{prj.location}/**.inl",
-        "%{prj.location}/**.hlsl",
-        "%{prj.location}/**.hlsli",
     }
 
     flags
@@ -48,3 +45,4 @@ project "CloneEngineCore"
         runtime "Release"
         optimize "On"
         symbols "Off"
+

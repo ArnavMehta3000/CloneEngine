@@ -17,7 +17,7 @@ bool TestScene::Init()
     e2->DestoryThis();
     e3->DestoryThis();
     e4->DestoryThis();
-
+    
     CLONE_INFO(TEST, "Initialized test scene");
     return true;
 }
