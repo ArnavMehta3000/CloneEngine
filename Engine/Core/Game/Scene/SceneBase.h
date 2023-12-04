@@ -1,9 +1,7 @@
 #pragma once
+#include "Common/Includes.h"
 #include "Core/Game/ECS/ECS.h"
 #include "Core/Input/Event.h"
-#include "Tools/Logger.h"
-#include <memory>
-#include <list>
 
 // Forward declare renderer
 namespace Clone::Rendering 

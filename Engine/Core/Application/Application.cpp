@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "Tools/Logger.h"
-#include <future>
 
 namespace Clone::Application
 {

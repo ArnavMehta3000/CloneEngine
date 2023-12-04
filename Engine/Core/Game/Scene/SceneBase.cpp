@@ -1,8 +1,6 @@
 #include "SceneBase.h"
 #include "Core/Game/Entity.h"
 #include "Core/Rendering/Renderer.h"
-#include <algorithm>
-#include <ranges>
 
 namespace Clone::Game
 {

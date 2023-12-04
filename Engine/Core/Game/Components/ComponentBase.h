@@ -1,11 +1,7 @@
 #pragma once
+#include "Common/Includes.h"
 #include "Math/SimpleMath.h"
-#include "Common/Property.h"
 #include "Core/Game/ECS/ECS.h"
-#include <string>
-#include <memory>
-#include <type_traits>
-#include <bitset>
 
 namespace Clone::Game { class Entity; class SceneBase; }
 

@@ -7,10 +7,6 @@
 #include <d3dcompiler.h>
 #include <d3d11shader.h>
 #include <d3d11_4.h>
-#include <wrl/client.h>
-
-template <typename T>
-using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 // Library links;
 #pragma comment(lib, "d3d11.lib")
@@ -20,8 +16,8 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 // Rendering aliases
 namespace Clone::Rendering
 {
-	using GraphicsDevice = ComPtr<ID3D11Device1>;
-	using GraphicsContext = ComPtr<ID3D11DeviceContext1>;
-	using GraphicsSwapChain = ComPtr<IDXGISwapChain1>;
+	using GraphicsDevice           = ComPtr<ID3D11Device1>;
+	using GraphicsContext          = ComPtr<ID3D11DeviceContext1>;
+	using GraphicsSwapChain        = ComPtr<IDXGISwapChain1>;
 	using GraphicsRenderTargetView = ComPtr<ID3D11RenderTargetView>;
 }

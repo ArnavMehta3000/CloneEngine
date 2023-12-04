@@ -1,6 +1,7 @@
 #pragma once
+#include "Common/Includes.h"
 #include "DialogDesc.h"
-#include <future>
+
 namespace Clone::Windowing
 {
 	void ShowMessageBox(const MessageDesc& desc);

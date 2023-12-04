@@ -1,9 +1,6 @@
 #include "dwmapi.h"
 #include "Shobjidl.h"
-#include "Tools/Logger.h"
-#include "Tools/StringHelper.h"
 #include "Window.h"
-#include <format>
 #include <windowsx.h>
 #pragma comment(lib, "dwmapi.lib")
 #pragma comment(lib, "uxtheme.lib")

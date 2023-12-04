@@ -1,7 +1,4 @@
 #include "Entity.h"
-#include <algorithm>
-#include <ranges>
-#include <execution>
 #include "Core/Game/Scene/SceneBase.h"
 
 namespace Clone::Game

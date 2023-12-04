@@ -1,9 +1,7 @@
 #pragma once
+#include "Common/Includes.h"
 #include "WindowDesc.h"
 #include "Core/Input/EventQueue.h"
-#include <memory>
-#include <functional>
-#include <unordered_map>
 
 struct ITaskbarList3;
 

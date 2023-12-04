@@ -1,7 +1,5 @@
 #include "Dialogs.h"
-#include "Tools/StringHelper.h"
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>  // Cannot use clone win here (prsht.h errors)
+#include "Common/CloneWin.h"
 #include <commdlg.h>
 namespace Clone::Windowing
 {

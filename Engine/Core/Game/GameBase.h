@@ -1,7 +1,6 @@
 #pragma once
+#include "Common/Includes.h"
 #include "Config/AppConfig.h"
-#include "Tools/Logger.h"
-#include "Common/Defines.h"
 #include "Core/Windowing/Window.h"
 #include "Core/Rendering/Renderer.h"
 #include "Core/Game/Scene/SceneBase.h"

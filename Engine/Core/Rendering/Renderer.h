@@ -1,8 +1,6 @@
 #pragma once
+#include "Common/Includes.h"
 #include "DirectXHeaders.h"
-#include "Common/Property.h"
-#include "Common/Defines.h"
-#include <memory>
 
 namespace Clone::Rendering
 {

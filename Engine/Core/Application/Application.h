@@ -1,11 +1,8 @@
 #pragma once
+#include "Common/Includes.h"
 #include "Config/AppConfig.h"
 #include "Core/Game/GameBase.h"
 #include "Core/Windowing/Window.h"
-#include "Tools/Timer.h"
-#include <mutex>
-#include <thread>
-#include <atomic>
 
 namespace Clone::Application
 {

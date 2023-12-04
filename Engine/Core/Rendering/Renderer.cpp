@@ -1,5 +1,4 @@
 #include "Renderer.h"
-#include "Tools/Logger.h"
 
 namespace Clone::Rendering
 {
