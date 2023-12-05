@@ -8,6 +8,7 @@
 #include <queue>
 #include <bitset>
 #include <memory>
+#include <optional>
 #include <algorithm>
 #include <ranges>
 #include <execution>

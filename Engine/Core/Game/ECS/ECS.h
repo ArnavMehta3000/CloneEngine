@@ -174,7 +174,7 @@ namespace Clone::ECS
 
 		template <typename T>
 		[[nodiscard]]
-		T* Get(EntityID id)
+		T* Get(EntityID id) const
 		{
 			ComponentID componentId = GetId<T>();
 			if (!m_entities[GetEntityIndex(id)].m_mask.test(componentId))
@@ -187,7 +187,7 @@ namespace Clone::ECS
 		}
 
 		template <typename T>
-		bool Has(EntityID id)
+		bool Has(EntityID id) const
 		{
 			return !(Get<T>(id) == nullptr);
 		}

@@ -1,5 +1,6 @@
 #pragma once
 #include "Common/Includes.h"
+#include "Utils/LibraryLoader.h"
 #include "Config/AppConfig.h"
 #include "Core/Game/GameBase.h"
 #include "Core/Windowing/Window.h"
@@ -22,7 +23,7 @@ namespace Clone::Application
 
 		/// <summary>
 		/// Initialize the application
-		/// </summary>
+		/// </summary>		
 		void Init();
 
 		/// <summary>
@@ -51,11 +52,12 @@ namespace Clone::Application
 
 
 
+		std::unique_ptr<Utils::DLLLoader> m_dllLoader;
+
 		Utils::Timer           m_appTimer;
 		HINSTANCE              m_hInstance;
 		Windowing::WindowPtr   m_appWindow;
 		Input::InputEventQueue m_wndEventQueue;
-		HMODULE                m_dllHandle;
 		Game::GameBase*        m_gameInstance;
 		CreateGame             m_createGameFunc;
 		ReleaseGame            m_releaseGameFunc;

@@ -9,15 +9,8 @@ TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
 bool TestScene::Init()
 {
     SceneBase::Init();
-    auto e1 = CreateEntity("Test1");
-    auto e2 = CreateEntity("Test2");
-    auto e3 = CreateEntity("Test3");
-    auto e4 = CreateEntity("Test4");
-    e1->DestoryThis();
-    e2->DestoryThis();
-    e3->DestoryThis();
-    e4->DestoryThis();
-    
+    auto e1 = CreateEntity("Camera");
+    auto c = e1->AddComponent<Component::Camera>();
     CLONE_INFO(TEST, "Initialized test scene");
     return true;
 }
@@ -25,17 +18,22 @@ bool TestScene::Init()
 void TestScene::Update(double deltaTime, const Input::Event& e)
 {
     SceneBase::Update(deltaTime, e);
-    CLONE_INFO(TEST, "Updated test scene");
+    auto roster = ECS::RosterView<Component::Camera>(GetWorld());
+
+    for (const ECS::EntityID& id : roster)
+    {
+        auto tf = GetWorld().Get<Component::Transform>(id);
+        auto cam = GetWorld().Get<Component::Camera>(id);
+        int x = 0;
+    }
 }
 
 void TestScene::FixedUpdate(double fixedDeltaTime)
 {
     SceneBase::FixedUpdate(fixedDeltaTime);
-    CLONE_INFO(TEST, "Test scene Fixed Update");
 }
 
 void TestScene::Shutdown()
 {
     SceneBase::Shutdown();
-    CLONE_INFO(TEST, "Shutting down test scene");
 }

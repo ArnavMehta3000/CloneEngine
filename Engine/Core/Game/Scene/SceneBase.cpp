@@ -21,22 +21,17 @@ namespace Clone::Game
 	
 	void SceneBase::Update(const double deltaTime, const Input::Event& e)
 	{
-		CLONE_INFO(SceneBase, "Updating scene base");		
 	}
 
 	void SceneBase::FixedUpdate(const double fixedDeltaTime)
 	{
-		CLONE_INFO(SceneBase, "Fixed updating the scene");
 	}
 
 	void SceneBase::PostUpdate(double deltaTime, const Input::Event& e)
 	{
-		CLONE_INFO(SceneBase, "Post updating scene base");
-
-
 		std::erase_if(m_entities, [this] (const EntityPtr& entity) 
 		{
-			if (entity->GetAttribute(Entity::Attributes::NeedsDestroy))
+			if (entity->GetAttribute(Entity::Attribute::NeedsDestroy))
 			{
 				CLONE_DEBUG(ECS, "Destroying entity: " + entity->Name);
 				entity->OnDestroy();
@@ -59,7 +54,6 @@ namespace Clone::Game
 	
 	bool SceneBase::Render()
 	{
-		CLONE_INFO(SceneBase, "Rendering scene base");		
 		return false;
 	}
 
@@ -79,7 +73,7 @@ namespace Clone::Game
 	
 	void SceneBase::DestroyEntity(EntityPtr entity)
 	{
-		entity->SetAttribute(Entity::Attributes::NeedsDestroy, true);
+		entity->SetAttribute(Entity::Attribute::NeedsDestroy, true);
 	}
 	
 	bool SceneBase::PreShutdown()

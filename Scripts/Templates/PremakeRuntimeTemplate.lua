@@ -6,6 +6,7 @@ project "CloneEngineRuntime"
 
     targetdir "%{wks.location}/build/bin/%{cfg.architecture}-%{cfg.buildcfg}"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
+    targetname "%USER_PROJECT_NAME%"
 
     location "%{wks.location}/Runtime/"
     links { "CloneEngineCore", "%USER_PROJECT_NAME%" }

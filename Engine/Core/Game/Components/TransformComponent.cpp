@@ -21,25 +21,25 @@ namespace Clone::Component
 	void Transform::SetPosition(const Math::Vector3& position)
 	{
 		m_Position = position;
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	void Transform::SetRotation(const Math::Quaternion& rotation)
 	{
 		m_Rotation = rotation;
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	void Transform::SetScale(const Math::Vector3& scale)
 	{
 		m_Scale = scale;
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	void Transform::AddChild(ECS::EntityID id)
 	{
 		m_children.insert(id);
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	void Transform::RemoveChild(ECS::EntityID id)
@@ -48,7 +48,7 @@ namespace Clone::Component
 		{
 			m_children.erase(id);
 		}
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	const std::unordered_set<ECS::EntityID>& Transform::GetChildren() const
@@ -69,7 +69,7 @@ namespace Clone::Component
 	void Transform::Translate(Math::Vector3 translation)
 	{
 		m_Position += translation;
-		SetAttribute(Attributes::IsDirty, true);
+		SetAttribute(Attribute::IsDirty, true);
 	}
 	
 }

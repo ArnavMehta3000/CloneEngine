@@ -9,8 +9,8 @@ namespace Clone::Game
 		m_id(id),
 		Name(name)
 	{
-		SetAttribute(Attributes::IsActive, true);
-		SetAttribute(Attributes::NeedsDestroy, false);
+		SetAttribute(Attribute::IsActive, true);
+		SetAttribute(Attribute::NeedsDestroy, false);
 	}
 
 	Entity::~Entity()
@@ -32,6 +32,6 @@ namespace Clone::Game
 
 	void Entity::DestoryThis()
 	{
-		SetAttribute(Attributes::NeedsDestroy, true);
+		SetAttribute(Attribute::NeedsDestroy, true);
 	}
 }

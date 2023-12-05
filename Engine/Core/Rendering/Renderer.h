@@ -1,6 +1,6 @@
 #pragma once
 #include "Common/Includes.h"
-#include "DirectXHeaders.h"
+#include "Common/DirectXHeaders.h"
 
 namespace Clone::Rendering
 {
@@ -12,6 +12,8 @@ namespace Clone::Rendering
 
 		bool Init(HWND hWnd);
 		void Resize(int width, int height);
+
+		GraphicsContext CreateDeferredContext() const;
 
 		void Clear(float r, float g, float b, float a = 1.0f);
 		void RenderFrame();

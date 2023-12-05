@@ -3,17 +3,28 @@
 #include "Math/SimpleMath.h"
 #include "Core/Game/ECS/ECS.h"
 
-namespace Clone::Game { class Entity; class SceneBase; }
+// Forward declarations
+namespace Clone::Input { class Event; }
+namespace Clone::Game 
+{ 
+	class SceneBase; 
+	class Entity;
+	using EntityPtr = std::shared_ptr<Clone::Game::Entity>;
+	using EntityWeakPtr = std::weak_ptr<Clone::Game::Entity>;
+}
 
 namespace Clone::Component
 {
-	enum class Attributes : int
+	struct Attribute
 	{
-		IsActive,
-		IsDirty,
-		NeedsDestroy,
+		enum Attr : int
+		{
+			IsActive,
+			IsDirty,
+			NeedsDestroy,
 
-		COMPONENT_ATTRIBUTES_COUNT
+			COMPONENT_ATTRIBUTES_COUNT
+		};
 	};
 
 	class ComponentBase
@@ -25,20 +36,20 @@ namespace Clone::Component
 			:
 			m_ComponentName(name)
 		{
-			m_OwnerID = CLONE_INVALID_ENTITY;
-			SetAttribute(Attributes::IsActive, true);
+			SetAttribute(Attribute::IsActive, true);
 		}
 
-		virtual ~ComponentBase() {}
+		virtual ~ComponentBase() = default;
+		virtual void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) {}
 
 		CLONE_CONST_GET_ONLY_PROPERTY(std::string, ComponentName);
-		CLONE_CONST_GET_ONLY_PROPERTY(ECS::EntityID, OwnerID);
+		CLONE_GET_ONLY_PROPERTY(Game::EntityWeakPtr, Owner);
 
 	protected:
-		inline void SetAttribute(Component::Attributes attr, bool value) { m_attributes.set(static_cast<int>(attr), value); }
-		inline bool GetAttribute(Component::Attributes attr) const { return m_attributes.test(static_cast<int>(attr)); }
+		inline void SetAttribute(int attr, bool value) { m_attributes.set(static_cast<int>(attr), value); }
+		inline bool GetAttribute(int attr) const { return m_attributes.test(static_cast<int>(attr)); }
 
-		std::bitset<(int)Attributes::COMPONENT_ATTRIBUTES_COUNT> m_attributes;
+		std::bitset<Attribute::COMPONENT_ATTRIBUTES_COUNT> m_attributes;
 	};
 
 	template <typename T>

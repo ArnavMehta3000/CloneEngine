@@ -26,7 +26,6 @@ namespace Clone::Game
 
 	void GameBase::PostUpdate(const double deltaTime, const Input::Event& e)
 	{
-		CLONE_DEBUG(Game Base, "Post update");
 		if (m_activeScene)
 		{
 			m_activeScene->PostUpdate(deltaTime, e);
@@ -35,7 +34,6 @@ namespace Clone::Game
 
 	void GameBase::FixedUpdate(const double fixedDeltaTime)
 	{
-		CLONE_DEBUG(Game Base, "Fixed update");
 		if (m_activeScene)
 		{
 			m_activeScene->FixedUpdate(fixedDeltaTime);
@@ -44,7 +42,6 @@ namespace Clone::Game
 
 	void GameBase::Render()
 	{
-		CLONE_DEBUG(Game Base, "Render base");
 		if (m_activeScene)
 		{
 			m_activeScene->Render();

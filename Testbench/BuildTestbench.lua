@@ -6,6 +6,7 @@ project "Testbench"
 
     targetdir "%{wks.location}/build/bin/%{cfg.architecture}-%{cfg.buildcfg}"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
+    targetname "GameDLL"
 
     location "%{wks.location}/Testbench/"
     links { "CloneEngineCore" }

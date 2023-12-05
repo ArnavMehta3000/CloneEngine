@@ -5,7 +5,7 @@ namespace Clone::Application
 	Application::Application(HINSTANCE hInstance, Config::AppConfig traits)
 		:
 		m_hInstance(hInstance),
-		m_dllHandle(nullptr),
+		m_dllLoader(nullptr),
 		m_gameInstance(nullptr),
 		m_createGameFunc(nullptr),
 		m_releaseGameFunc(nullptr),
@@ -75,10 +75,10 @@ namespace Clone::Application
 	bool Application::LoadGame()
 	{	
 		int* i = new int();
-		m_dllHandle = LoadLibraryA("Testbench.dll");
-		if (m_dllHandle != nullptr)
+		m_dllLoader = std::make_unique<Utils::DLLLoader>("GameDLL.dll");
+		if (m_dllLoader != nullptr)
 		{
-			m_createGameFunc = CreateGame(GetProcAddress(m_dllHandle, "CreateGame"));
+			m_createGameFunc = CreateGame(m_dllLoader->GetProcAddress("CreateGame"));
 			if (!m_createGameFunc)
 			{
 				CLONE_ERROR(LoadGame, "Failed to get CreateGame() function pointer from loaded DLL");
@@ -90,7 +90,7 @@ namespace Clone::Application
 				CLONE_DEBUG(LoadGame, "Created game instance from DLL");
 			}
 
-			m_releaseGameFunc = ReleaseGame(GetProcAddress(m_dllHandle, "ReleaseGame"));
+			m_releaseGameFunc = ReleaseGame(m_dllLoader->GetProcAddress("ReleaseGame"));
 			if (!m_releaseGameFunc)
 			{
 				CLONE_ERROR(LoadGame, "Failed to get ReleaseGame() function pointer from loaded DLL");
@@ -117,9 +117,9 @@ namespace Clone::Application
 			m_releaseGameFunc(m_gameInstance);
 		}
 
-		if (m_dllHandle)
+		if (m_dllLoader)
 		{
-			FreeLibrary(m_dllHandle);
+			m_dllLoader.reset();
 		}
 	}
 

@@ -16,7 +16,7 @@ namespace Clone::Game
 	class GameBase;
 	class Entity;
 	using EntityPtr = std::shared_ptr<Clone::Game::Entity>;
-	using WeakEntityPtr = std::weak_ptr<Clone::Game::Entity>;
+	using EntityWeakPtr = std::weak_ptr<Clone::Game::Entity>;
 
 
 	class SceneBase

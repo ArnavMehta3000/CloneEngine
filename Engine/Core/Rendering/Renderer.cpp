@@ -134,7 +134,7 @@ namespace Clone::Rendering
 		GetClientRect(hWnd, &rc);
 
 		// Set viewport
-		D3D11_VIEWPORT vp;
+		D3D11_VIEWPORT vp{};
 		vp.Width = float(rc.right - rc.left);
 		vp.Height = float(rc.bottom - rc.top);
 		vp.MinDepth = 0.0f;
@@ -201,6 +201,13 @@ namespace Clone::Rendering
 		m_height = height;
 
 		IsResizing = false;
+	}
+
+	GraphicsContext Renderer::CreateDeferredContext() const
+	{
+		GraphicsContext ctx;
+		HRESULT hr = m_device->CreateDeferredContext1(0, &ctx);
+		return ctx;
 	}
 
 	void Renderer::Clear(float r, float g, float b, float a)
