@@ -22,9 +22,9 @@ namespace Clone::Rendering
 		inline int GetHeight() const { return m_height; }
 
 		// Enable or disable VSYNC for presenting
-		CLONE_AUTO_PROPERTY(bool, IsVsyncEnabled)
+		CLONE_AUTO_PROPERTY(bool, IsVsyncEnabled);
 		// Flag for checking if the renderer is resizing
-		CLONE_AUTO_PROPERTY(bool, IsResizing)
+		CLONE_AUTO_PROPERTY(bool, IsResizing);
 
 	private:
 		GraphicsDevice           m_device;

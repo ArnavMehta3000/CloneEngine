@@ -25,6 +25,7 @@ namespace Clone::Game
 		virtual bool Init() = 0;
 		virtual void Update([[maybe_unused]] const double deltaTime, [[maybe_unused]] const Input::Event& e) = 0;
 		virtual void FixedUpdate([[maybe_unused]] const double fixedDeltaTime);
+		virtual void OnWindowResize(int width, int height);
 		virtual void Shutdown() = 0;
 
 		std::shared_ptr<Rendering::Renderer> GetRenderer() const { return m_renderer; }

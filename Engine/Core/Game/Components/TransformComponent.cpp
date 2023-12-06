@@ -6,17 +6,10 @@ namespace Clone::Component
 	Transform::Transform(Math::Vector3 position, Math::Quaternion rotation, Math::Vector3 scale) : ComponentBase("Transform"),
 		m_Position(position),
 		m_Rotation(rotation),
-		m_Scale(scale),
-		m_parent(nullptr)
+		m_Scale(scale)
 	{}
 
-	Transform::~Transform()
-	{
-		if (m_parent)
-		{
-			m_parent = nullptr;
-		}
-	}
+	Transform::~Transform() = default;
 
 	void Transform::SetPosition(const Math::Vector3& position)
 	{
@@ -55,7 +48,7 @@ namespace Clone::Component
 	{
 		return m_children;
 	}
-	
+
 	Transform* Transform::GetParent() const
 	{
 		return m_parent;
@@ -64,6 +57,7 @@ namespace Clone::Component
 	void Transform::SetParent(Transform* parent)
 	{
 		m_parent = parent;
+		SetAttribute(Attribute::IsDirty, true);
 	}
 
 	void Transform::Translate(Math::Vector3 translation)

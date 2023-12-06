@@ -1,0 +1,31 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+
+
+#define CLONE_GET_ONLY_PROPERTY(type, propName) public: __declspec(property(get = Get##propName)) type propName; type Get##propName() const { return m_##propName; } private: type m_##propName
+#define CLONE_CONST_GET_ONLY_PROPERTY(type, propName) public: __declspec(property(get = Get##propName)) type propName; const type& Get##propName() const { return m_##propName; } private: type m_##propName
+#define CLONE_PROPERTY(type, propName) public: __declspec(property(get = Get##propName, put = Set##propName)) type propName; type Get##propName() const { return m_##propName; } void Set##propName(const type& value); private: type m_##propName
+#define CLONE_CONST_PROPERTY(type, propName) public: __declspec(property(get = Get##propName, put = Set##propName)) type propName; const type& Get##propName() const { return m_##propName; } void Set##propName(const type& value);private: type m_##propName
+#define CLONE_AUTO_PROPERTY(type, propName) public: __declspec(property(get = Get##propName, put = Set##propName)) type propName; type Get##propName() const { return m_##propName; } void Set##propName(const type& value) { m_##propName = value; } private: type m_##propName
+#define CLONE_CONST_AUTO_PROPERTY(type, propName) public: __declspec(property(get = Get##propName, put = Set##propName)) type propName; const type& Get##propName() const { return m_##propName; } void Set##propName(const type& value) { m_##propName = value; } private: type m_##propName
+
+
+
+#define STRINGIFY(x) #x
+#define STRINGIFYW(value) L ## #value
+#define FPS_TO_DT(fps) 1.0 / fps
+#define DT_TO_FPS(dt) 1.0 / dt
+#define CLONE_EXPORT __declspec(dllexport)
+#define CLONE_IMPORT __declspec(dllimport)
+
+
+#define CLONE_CHECK(x) assert(x)
+#define CLONE_CHECK_IMPL(a, b, op) assert((a)op(b))
+
+#define CLONE_CHECK_EQ(a, b) CLONE_CHECK_IMPL(a, b, ==)
+#define CLONE_CHECK_NE(a, b) CLONE_CHECK_IMPL(a, b, !=)
+#define CLONE_CHECK_GT(a, b) CLONE_CHECK_IMPL(a, b, >)
+#define CLONE_CHECK_GE(a, b) CLONE_CHECK_IMPL(a, b, >=)
+#define CLONE_CHECK_LT(a, b) CLONE_CHECK_IMPL(a, b, <)
+#define CLONE_CHECK_LE(a, b) CLONE_CHECK_IMPL(a, b, <=)

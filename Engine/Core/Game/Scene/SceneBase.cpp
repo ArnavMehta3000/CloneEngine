@@ -4,9 +4,10 @@
 
 namespace Clone::Game
 {
-	SceneBase::SceneBase(Rendering::RendererPtr renderer)
+	SceneBase::SceneBase(Rendering::RendererPtr renderer, const Config::AppConfig& config)
 		:
-		m_renderer(renderer)
+		m_renderer(renderer),
+		m_appConfig(config)
 	{}
 
 	SceneBase::~SceneBase()
@@ -15,7 +16,9 @@ namespace Clone::Game
 	
 	bool SceneBase::Init()
 	{
-		CLONE_INFO(SceneBase, "Initializing scene base");
+		// Create base camera
+		const auto& desc = GetConfig().WindowDesc;
+		m_MainCamera.CreatePerspective(desc.Width, desc.Height, 45.0f, 0.1f, 100.0f);
 		return true;
 	}
 	
@@ -24,6 +27,10 @@ namespace Clone::Game
 	}
 
 	void SceneBase::FixedUpdate(const double fixedDeltaTime)
+	{
+	}
+
+	void SceneBase::OnWindowResize(int width, int height)
 	{
 	}
 
@@ -65,7 +72,12 @@ namespace Clone::Game
 
 		CLONE_DEBUG(ECS, "Created entity: " + entity->Name);		
 
-		entity->AddComponent<Component::Transform>();
+		Component::Transform* transform =  entity->AddComponent<Component::Transform>();
+		if (parentEntity)
+		{
+			transform->SetParent(parentEntity->GetComponent<Component::Transform>());
+		}
+		
 		entity->OnCreate();
 		
 		return entity;
@@ -74,6 +86,11 @@ namespace Clone::Game
 	void SceneBase::DestroyEntity(EntityPtr entity)
 	{
 		entity->SetAttribute(Entity::Attribute::NeedsDestroy, true);
+	}
+
+	void SceneBase::SetMainCamera(const Camera& value)
+	{
+		m_MainCamera = value;
 	}
 	
 	bool SceneBase::PreShutdown()

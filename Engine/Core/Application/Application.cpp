@@ -160,7 +160,7 @@ namespace Clone::Application
 							if (e.Data.SizeMove.Width != m_gameInstance->GetRenderer()->GetWidth() ||
 								e.Data.SizeMove.Height != m_gameInstance->GetRenderer()->GetHeight())
 							{
-								m_gameInstance->GetRenderer()->Resize(e.Data.SizeMove.Width, e.Data.SizeMove.Height);
+								m_gameInstance->OnWindowResize(e.Data.SizeMove.Width, e.Data.SizeMove.Height);
 							}
 						}
 					}

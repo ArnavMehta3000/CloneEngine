@@ -40,6 +40,15 @@ namespace Clone::Game
 		}
 	}
 
+	void GameBase::OnWindowResize(int width, int height)
+	{
+		m_renderer->Resize(width, height);
+		if (m_activeScene)
+		{
+			m_activeScene->OnWindowResize(width, height);
+		}
+	}
+
 	void GameBase::Render()
 	{
 		if (m_activeScene)

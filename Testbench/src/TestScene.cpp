@@ -1,7 +1,7 @@
 #include "TestScene.h"
 #include "Core/Game/Entity.h"
 
-TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
+TestScene::TestScene(Rendering::RendererPtr renderer, const Config::AppConfig& config) : SceneBase(renderer, config)
 {
     CLONE_INFO(TEST, "Created test scene");
 }
@@ -9,8 +9,10 @@ TestScene::TestScene(Rendering::RendererPtr renderer) : SceneBase(renderer)
 bool TestScene::Init()
 {
     SceneBase::Init();
-    auto e1 = CreateEntity("Camera");
-    auto c = e1->AddComponent<Component::Camera>();
+    const auto& wndDesc = GetConfig().WindowDesc;
+
+
+
     CLONE_INFO(TEST, "Initialized test scene");
     return true;
 }
@@ -18,19 +20,16 @@ bool TestScene::Init()
 void TestScene::Update(double deltaTime, const Input::Event& e)
 {
     SceneBase::Update(deltaTime, e);
-    auto roster = ECS::RosterView<Component::Camera>(GetWorld());
-
-    for (const ECS::EntityID& id : roster)
-    {
-        auto tf = GetWorld().Get<Component::Transform>(id);
-        auto cam = GetWorld().Get<Component::Camera>(id);
-        int x = 0;
-    }
 }
 
 void TestScene::FixedUpdate(double fixedDeltaTime)
 {
     SceneBase::FixedUpdate(fixedDeltaTime);
+}
+
+void TestScene::OnWindowResize(int width, int height)
+{
+    SceneBase::OnWindowResize(width, height);
 }
 
 void TestScene::Shutdown()

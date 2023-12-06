@@ -1140,6 +1140,7 @@ namespace std
 namespace Clone
 {
 	namespace Math = DirectX::SimpleMath;
+	namespace DX = DirectX;
 }
 
 #ifdef __clang__

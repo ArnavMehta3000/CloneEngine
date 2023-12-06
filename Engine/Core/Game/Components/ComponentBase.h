@@ -40,7 +40,9 @@ namespace Clone::Component
 		}
 
 		virtual ~ComponentBase() = default;
-		virtual void Update([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) {}
+		virtual void OnCreate() {}
+		virtual void OnUpdate([[maybe_unused]] double deltaTime, [[maybe_unused]] const Input::Event& e) {}
+		virtual void OnDestroy() {}
 
 		CLONE_CONST_GET_ONLY_PROPERTY(std::string, ComponentName);
 		CLONE_GET_ONLY_PROPERTY(Game::EntityWeakPtr, Owner);

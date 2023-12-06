@@ -48,12 +48,18 @@ namespace Clone::Game
 			T* component = m_scene->GetWorld().Assign<T>(m_id, args...);
 			component->m_Owner = weak_from_this();
 
+			component->OnCreate();
+
 			return component;
 		}
 
 		template <Component::ConceptComponent T>
 		void RemoveComponent()
 		{
+			if (auto comp = m_scene->GetWorld().Get<T>(m_id))
+			{
+				comp->OnDestroy();
+			}
 			m_scene->GetWorld().Remove(m_id);
 		}
 

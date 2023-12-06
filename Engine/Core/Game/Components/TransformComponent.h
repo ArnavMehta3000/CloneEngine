@@ -21,14 +21,13 @@ namespace Clone::Component
 		// TODO: add world or local space param
 		void Translate(Math::Vector3 translation);
 
-		CLONE_CONST_PROPERTY(Math::Vector3, Position)
-		CLONE_CONST_PROPERTY(Math::Quaternion, Rotation)
-		CLONE_CONST_PROPERTY(Math::Vector3, Scale)
-		CLONE_CONST_PROPERTY(Math::Matrix, WorldMatrix)
+		CLONE_CONST_PROPERTY(Math::Vector3, Position);
+		CLONE_CONST_PROPERTY(Math::Quaternion, Rotation);
+		CLONE_CONST_PROPERTY(Math::Vector3, Scale);
+		CLONE_CONST_GET_ONLY_PROPERTY(Math::Matrix, WorldMatrix);
 
 	private:
-		Transform*       m_parent;
-
+		Transform* m_parent;
 		std::unordered_set<ECS::EntityID> m_children;
 	};
 }

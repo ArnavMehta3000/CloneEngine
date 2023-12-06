@@ -16,7 +16,7 @@ TestbenchClass::TestbenchClass() : Game::GameBase()
 bool TestbenchClass::Init()
 {
 	CLONE_DEBUG(Testbench, "Started Testbench initialization");
-	m_activeScene = std::make_unique<TestScene>(GetRenderer());
+	m_activeScene = std::make_unique<TestScene>(GetRenderer(), GetAppConfig());
 	m_activeScene->Init();
 	CLONE_DEBUG(Testbench, "Finished Testbench initialization");
 	return true;

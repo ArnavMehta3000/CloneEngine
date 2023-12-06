@@ -22,6 +22,8 @@ project "CloneEngineCore"
         "%{prj.location}/**.cpp",
         "%{prj.location}/**.ixx",
         "%{prj.location}/**.inl",
+        "%{prj.location}/**.hint",
+        "%{prj.location}/**.natvis",
     }
 
     flags
