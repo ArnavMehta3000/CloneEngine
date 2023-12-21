@@ -1,6 +1,6 @@
 #pragma once
 #include "Common/Includes.h"
-#include "Math/SimpleMath.h"
+#include "Math/Math.h"
 
 namespace Clone::Game
 {

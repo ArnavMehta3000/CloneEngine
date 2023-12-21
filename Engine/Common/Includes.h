@@ -35,3 +35,4 @@ using ComPtr = Microsoft::WRL::ComPtr<T>;
 #include "Utils/Logger.h"
 #include "Utils/StringHelper.h"
 #include "Utils/Timer.h"
+#include "Utils/StepTimer.h"

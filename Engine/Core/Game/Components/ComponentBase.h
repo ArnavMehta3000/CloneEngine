@@ -1,6 +1,6 @@
 #pragma once
 #include "Common/Includes.h"
-#include "Math/SimpleMath.h"
+#include "Math/Math.h"
 #include "Core/Game/ECS/ECS.h"
 
 // Forward declarations

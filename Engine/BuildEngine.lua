@@ -3,6 +3,7 @@ project "CloneEngineCore"
     kind "StaticLib"
     language "C++"
     cppdialect "C++latest"
+    nuget { "directxtk_desktop_win10:2023.10.31.1" }
 
     targetdir "%{wks.location}/build/bin/%{cfg.architecture}-%{cfg.buildcfg}"
     objdir "%{wks.location}/build/int/%{cfg.architecture}-%{cfg.buildcfg}/%{prj.name}"
@@ -47,4 +48,3 @@ project "CloneEngineCore"
         runtime "Release"
         optimize "On"
         symbols "Off"
-
